@@ -17,14 +17,13 @@ namespace WTG_Switcher
             Console.WriteLine("WTG Switcher v3");
             Console.WriteLine("Copyright (C) Charles.");
             //Check Status
-            ////Get GUID
             RegistryKey BDF = Registry.LocalMachine.OpenSubKey("SYSTEM\\HardwareConfig\\Current");
             object BR = BDF.GetValue("BootDriverFlags");
             RegistryKey POS = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control");
             object PR = POS.GetValue("PortableOperatingSystem");
             RegistryKey PGR = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Services\\partmgr\\Parameters");
             object PS = PGR.GetValue("SanPolicy");
-            ////Output
+            //Output
             Console.WriteLine();
             Console.WriteLine("Currnet Status:" +
                 Environment.NewLine + " Boot Driver Settings: " + BR +
@@ -34,7 +33,6 @@ namespace WTG_Switcher
             Console.WriteLine("     Boot Driver Settings: 20 - USB mode, 0 - Non-USB mode" + 
                 Environment.NewLine + "     PortableOS Feature: 1 - enbaled, 0 - disbaled." + 
                 Environment.NewLine + "     Partmgr Settings: 1 - Default settings; 4 - Hide local disks");
-
 
             //Menu
             Console.WriteLine();
@@ -92,7 +90,7 @@ namespace WTG_Switcher
 
                     Console.WriteLine();
                     Console.WriteLine("Done.");
-                    Console.WriteLine("Restart to make some of the changes take effect" + Environment.NewLine);
+                    Console.WriteLine("Restart to make the changes take effect" + Environment.NewLine);
                     Console.Write("Press any key to exit...");
                     Console.ReadKey(true);
                     Console.WriteLine();
@@ -113,7 +111,7 @@ namespace WTG_Switcher
 
                     Console.WriteLine();
                     Console.WriteLine("Done.");
-                    Console.WriteLine("Restart to make some of the changes take effect" + Environment.NewLine);
+                    Console.WriteLine("Restart to make the changes take effect" + Environment.NewLine);
                     Console.Write("Press any key to exit...");
                     Console.ReadKey(true);
                     Console.WriteLine();
@@ -128,7 +126,7 @@ namespace WTG_Switcher
 
                     Console.WriteLine();
                     Console.WriteLine("Done.");
-                    Console.WriteLine("Restart to apply the change." + Environment.NewLine);
+                    Console.WriteLine("Restart to apply this change." + Environment.NewLine);
                     Console.Write("Press any key to exit...");
                     Console.ReadKey(true);
                     Console.WriteLine();
@@ -138,7 +136,7 @@ namespace WTG_Switcher
                 //Exit
                 default:
                     Console.WriteLine();
-                    Console.WriteLine("Exit in 3s.");
+                    Console.WriteLine("Progarm will exit in 3s.");
                     Thread.Sleep(3000);
                     Console.WriteLine();
                     Process.GetCurrentProcess().Kill();

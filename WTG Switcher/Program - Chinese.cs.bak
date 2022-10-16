@@ -12,25 +12,27 @@ namespace WTG_Switcher
         {
             //Apperance
             string Time = DateTime.Now.ToString("HH:mm:ss");
-            Console.Title = ("WTG Switcher v2 " + "(于 " + Time + " 启动)");
+            Console.Title = ("WTG Switcher v3 " + "(于 " + Time + " 启动)");
             Console.WriteLine();
-            Console.WriteLine("WTG Switcher Release v2");
+            Console.WriteLine("WTG Switcher v3");
             Console.WriteLine("Copyright (C) Charles.");
             //Check Status
-            ////Get GUID
-            RegistryKey BDF = Registry.LocalMachine.OpenSubKey("SYSTEM\\HardwareConfig");
+            RegistryKey BDF = Registry.LocalMachine.OpenSubKey("SYSTEM\\HardwareConfig\\Current");
             object BR = BDF.GetValue("BootDriverFlags");
             RegistryKey POS = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control");
             object PR = POS.GetValue("PortableOperatingSystem");
-            ////Output
+            RegistryKey PGR = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Services\\partmgr\\Parameters");
+            object PS = PGR.GetValue("SanPolicy");
+             //Output
             Console.WriteLine();
             Console.WriteLine("当前系统状态:" +
                 Environment.NewLine + " 启动设备设置: " + BR + 
-                Environment.NewLine + " WinToGo 特性: " + PR);
+                Environment.NewLine + " WinToGo 特性: " + PR + 
+                Environment.NewLine + " 展示本地磁盘: " + PS );
             Console.WriteLine();
             Console.WriteLine("     对于启动设备设置, 20 表示可从USB设备启动, 0 表示仅可从本地磁盘启动" + 
-                Environment.NewLine + "     对于 WinToGo 特性, 1 表示启用, 0 表示禁用.");
-
+                Environment.NewLine + "     对于 WinToGo 特性, 1 表示启用, 0 表示禁用." + 
+                Environment.NewLine + "     Partmgr Settings: 1 - Default settings; 4 - Hide local disks");
 
             //Menu
             Console.WriteLine();
@@ -39,7 +41,8 @@ namespace WTG_Switcher
             Console.WriteLine("你想执行那个操作?");
             Console.WriteLine("1. 切换到 WTG 模式" +
                Environment.NewLine + "2. 切换到常规模式" +
-               Environment.NewLine + "3. 退出程序");
+               Environment.NewLine + "3. 显示本地磁盘" +
+               Environment.NewLine + "4. 退出程序");
 
             Console.WriteLine();
             var input = Console.ReadKey();
@@ -64,10 +67,12 @@ namespace WTG_Switcher
         private static void RouteChoice(int Choice)
         {
         //Switch
-        string Key1 = "SYSTEM\\HardwareConfig";
+        string Key1 = "SYSTEM\\HardwareConfig\\Current";
         string BDF = "BootDriverFlags";
         string Key2 = "SYSTEM\\CurrentControlSet\\Control";
         string POS = "PortableOperatingSystem";
+        string Key3 = "SYSTEM\\CurrentControlSet\\Services\\partmgr\\Parameters";
+        string SAN = "SanPolicy";
 
             switch (Choice)
             {
@@ -79,9 +84,13 @@ namespace WTG_Switcher
                     RegistryKey Portable = Registry.LocalMachine.CreateSubKey(Key2);
                     Portable.SetValue(POS, 1, RegistryValueKind.DWord);
                     Portable.Close();
+                    RegistryKey PartmgrHide = Registry.LocalMachine.CreateSubKey(Key3);
+                    PartmgrHide.SetValue(SAN, 4, RegistryValueKind.DWord);
+                    PartmgrHide.Close();
 
                     Console.WriteLine();
                     Console.WriteLine("完成");
+                    Console.WriteLine("重启使这些更改生效" + Environment.NewLine);
                     Console.Write("按任意键退出……");
                     Console.ReadKey(true);
                     Console.WriteLine();
@@ -96,9 +105,28 @@ namespace WTG_Switcher
                     RegistryKey Normal = Registry.LocalMachine.CreateSubKey(Key2);
                     Normal.SetValue(POS, 0, RegistryValueKind.DWord);
                     Normal.Close();
+                    RegistryKey PartmgrShow = Registry.LocalMachine.CreateSubKey(Key3);
+                    PartmgrShow.SetValue(SAN, 1, RegistryValueKind.DWord);
+                    PartmgrShow.Close();
 
                     Console.WriteLine();
                     Console.WriteLine("完成");
+                    Console.WriteLine("重启使这些更改生效" + Environment.NewLine);
+                    Console.Write("按任意键退出……");
+                    Console.ReadKey(true);
+                    Console.WriteLine();
+                    Process.GetCurrentProcess().Kill();
+                    break;
+
+                //Show local disks
+                case 3:
+                    RegistryKey Partmgr = Registry.LocalMachine.CreateSubKey(Key3);
+                    Partmgr.SetValue(SAN, 1, RegistryValueKind.DWord);
+                    Partmgr.Close();
+                    
+                    Console.WriteLine();
+                    Console.WriteLine("完成");
+                    Console.WriteLine("重启使更改生效" + Environment.NewLine);
                     Console.Write("按任意键退出……");
                     Console.ReadKey(true);
                     Console.WriteLine();
@@ -108,7 +136,7 @@ namespace WTG_Switcher
                 //Exit
                 default:
                     Console.WriteLine();
-                    Console.WriteLine("将在3秒后退出……");
+                    Console.WriteLine("程序将在3秒后退出……");
                     Thread.Sleep(3000);
                     Console.WriteLine();
                     Process.GetCurrentProcess().Kill();
