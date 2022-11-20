@@ -1,6 +1,4 @@
-# WTG-Switcher
-[Support Windows 10 only] A program helps you change your WTG boot settings.  
-This is my first time using an advanced programming language to write a program.  
-the codes maybe pretty sucks, just... don't take it too personally.  
-  
-In addition, due to my poor capability, I created a copy of *Program.cs* and renamed it as *Program - Chinese.cs*, which means you can genenrate a chinese version of this program through your compiler.
+# WinToGo Utility
+**WinToGo Utility** is a utility that helps you adjust your Windows To Go workstation settings more ealisy when you have specific needs like upgrade to newer versio of Windosw etc.
+#Why build this?
+I came up an idea of upgrade my Windows 10 To Go workstation to Windows 11 after Microsoft released Windows 11 system.
