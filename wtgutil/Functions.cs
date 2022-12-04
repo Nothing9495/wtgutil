@@ -1,12 +1,33 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Linq;
+using System.Security.Principal;
 
 namespace WTG_Utility.Functions
 {
+    internal class IsAdmin
+    {
+        public static void IsAdministrator()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();    //Privilege Check
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            bool userGroup = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            if (userGroup == true)
+            {
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("Need to elevate privileges to run wtgutil.");
+                Console.WriteLine();
+                Environment.Exit(1);
+            }
+        }
+    }
 
     internal class GetSettings
     {
-        internal static void CurrentInfo()
+        internal static void CurrentInfoText()
         {
             Console.WriteLine("Current Info:");
         }
@@ -38,20 +59,26 @@ namespace WTG_Utility.Functions
         internal static void GetPortableOSFeature()
         {
             RegistryKey getPOS = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control");
-            int statusPOS = (int)getPOS.GetValue("PortableOperatingSystem");
-            getPOS.Close();
-
-            if (statusPOS == 1)                                            //PortableOS Check
+            bool existPOS = (getPOS.GetValueNames().Contains("PortableOperatingSystem"));
+            if (existPOS == true)
             {
-                Console.WriteLine("  PortableOS Feature: Enabled");
-            }
-            else if (statusPOS == 0)
-            {
-                Console.WriteLine("  PortableOS Feature: Disabled");
+                int statusPOS = (int)getPOS.GetValue("PortableOperatingSystem");
+                if (statusPOS == 1)                                            //PortableOS Check
+                {
+                    Console.WriteLine("  WindowsToGo Features: Enabled");
+                }
+                else if (statusPOS == 0)
+                {
+                    Console.WriteLine("  WindowsToGo Features: Disabled");
+                }
+                else
+                {
+                    Console.WriteLine("  WindowsToGo Features: Status unknown");
+                }
             }
             else
             {
-                Console.WriteLine("  PortableOS Feature: Status unknown");
+                Console.WriteLine("  WindowsToGo Feature: [ERR: The specified registry key does not exist]");
             }
         }
 

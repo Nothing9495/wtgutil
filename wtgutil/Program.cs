@@ -10,7 +10,9 @@ namespace WTG_Utility
         static void Main(string[] args) //a bunch of if-else
         {
 
-            Console.Title = ("WTG Util v3");
+            Console.Title = ("wtgutil v3");
+
+            IsAdmin.IsAdministrator();
 
             if (args.Count() <= 0)
             {
@@ -26,7 +28,9 @@ namespace WTG_Utility
                 {
 
                     Console.WriteLine();
-                    GetSettings.CurrentInfo();
+                    Message.ShowWelcomeMsg();
+                    Console.WriteLine();
+                    GetSettings.CurrentInfoText();
                     GetSettings.GetBootDriverFlags();
                     GetSettings.GetPortableOSFeature();
                     GetSettings.GetPartmgrSettings();
@@ -37,6 +41,8 @@ namespace WTG_Utility
                 else if (arg == "/help" || arg == "/?")
                 {
 
+                    Console.WriteLine();
+                    Message.ShowWelcomeMsg();
                     Console.WriteLine();
                     Information.GetHelp();
                     Console.WriteLine();
@@ -83,10 +89,12 @@ namespace WTG_Utility
                     if (param == "-wintogo")
                     {
 
+                        Console.WriteLine();
+                        Message.ShowWelcomeMsg();
+                        Console.WriteLine();
                         ModifySettings.SetBootDriverFlags(20);
                         ModifySettings.SetPortableOSFeature(1);
                         ModifySettings.SetPartmgrSettings(4);
-                        Console.WriteLine();
                         Message.ShowRestartMsg();
                         Message.ShowCompletedMsg();
 
@@ -94,10 +102,12 @@ namespace WTG_Utility
                     else if (param == "-default")
                     {
 
+                        Console.WriteLine();
+                        Message.ShowWelcomeMsg();
+                        Console.WriteLine();
                         ModifySettings.SetBootDriverFlags(0);
                         ModifySettings.SetPortableOSFeature(0);
                         ModifySettings.SetPartmgrSettings(1);
-                        Console.WriteLine();
                         Message.ShowRestartMsg();
                         Message.ShowCompletedMsg();
                         Message.ShowWarningMsg();
@@ -115,8 +125,10 @@ namespace WTG_Utility
                     if (param == "-showlocaldisks")
                     {
 
-                        ModifySettings.SetPartmgrSettings(1);
                         Console.WriteLine();
+                        Message.ShowWelcomeMsg();
+                        Console.WriteLine();
+                        ModifySettings.SetPartmgrSettings(1);
                         Message.ShowRestartMsg();
                         Message.ShowCompletedMsg();
 
@@ -124,8 +136,10 @@ namespace WTG_Utility
                     else if (param == "-hidelocaldisks")
                     {
 
-                        ModifySettings.SetPartmgrSettings(4);
                         Console.WriteLine();
+                        Message.ShowWelcomeMsg();
+                        Console.WriteLine();
+                        ModifySettings.SetPartmgrSettings(4);
                         Message.ShowRestartMsg();
                         Message.ShowCompletedMsg();
 

@@ -1,12 +1,33 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Linq;
+using System.Security.Principal;
 
 namespace WTG_Utility.Functions_CHS
 {
+    internal class IsAdmin
+    {
+        public static void IsAdministrator()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();    //Privilege Check
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            bool userGroup = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            if (userGroup == true)
+            {
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("需要提升权限才能运行 wtgutil.");
+                Console.WriteLine();
+                Environment.Exit(1);
+            }
+        }
+    }
 
     internal class GetSettings
     {
-        internal static void CurrentInfo()
+        internal static void CurrentInfoText()
         {
             Console.WriteLine("当前系统信息:");
         }
@@ -38,22 +59,29 @@ namespace WTG_Utility.Functions_CHS
         internal static void GetPortableOSFeature()
         {
             RegistryKey getPOS = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control");
-            int statusPOS = (int)getPOS.GetValue("PortableOperatingSystem");
-            getPOS.Close();
-
-            if (statusPOS == 1)                                            //PortableOS Check
+            bool existPOS = (getPOS.GetValueNames().Contains("PortableOperatingSystem"));
+            if (existPOS == true)
             {
-                Console.WriteLine("  WinToGo 特性：已启用");
-            }
-            else if (statusPOS == 0)
-            {
-                Console.WriteLine("  WinToGo 特性：已禁用");
+                int statusPOS = (int)getPOS.GetValue("PortableOperatingSystem");
+                if (statusPOS == 1)                                            //PortableOS Check
+                {
+                    Console.WriteLine("  WinToGo 特性：已启用");
+                }
+                else if (statusPOS == 0)
+                {
+                    Console.WriteLine("  WinToGo 特性：已禁用");
+                }
+                else
+                {
+                    Console.WriteLine("  WinToGo 特性：状态未知");
+                }
             }
             else
             {
-                Console.WriteLine("  WinToGo 特性：状态未知");
+                Console.WriteLine("  WindowsToGo Feature: [ERR: 指定的注册表键值不存在]");
             }
         }
+
 
         internal static void GetPartmgrSettings()
         {

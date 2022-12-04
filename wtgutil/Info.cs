@@ -7,7 +7,7 @@ namespace WTG_Utility.Info
         internal static void GetHelp()
         {
             Console.WriteLine("Usage: " + Environment.NewLine +
-                              "  wtgutil [/arguments] [-paramters]" + Environment.NewLine);
+                              "  wtgutil.exe [/commmand] [-paramter]" + Environment.NewLine);
             Console.WriteLine("   /mode -- Choose system settings." + Environment.NewLine +
                               "     -wintogo -- Use WinToGo settings." + Environment.NewLine +
                               "     -default -- Use system default settings." + Environment.NewLine);
@@ -16,20 +16,29 @@ namespace WTG_Utility.Info
                               "     -hidelocaldisks -- Hide local disks when the system startup." + Environment.NewLine);
             Console.WriteLine("   /info -- Show system settings status.");
             Console.WriteLine("   /about -- About this utility.");
-            Console.WriteLine("   /help, /? -- Show help information.");
+            Console.WriteLine("   /help, /? -- Show help information." + Environment.NewLine);
+            Console.WriteLine("   Examples：" + Environment.NewLine +
+                              "     wtgutil.exe /?" + Environment.NewLine +
+                              "     wtgutil.exe /mode -wintogo" + Environment.NewLine +
+                              "     wtgutil.exe /partmgr -hidelocaldisks");
         }
         internal static void GetAbout()
         {
-            Console.WriteLine("WinToGo Utility v3" + Environment.NewLine + "by Charles." + Environment.NewLine);
+            Console.WriteLine("WindowsToGo Utility v3.0.1" + Environment.NewLine + "by Charles." + Environment.NewLine);
             Console.WriteLine("Github repository: https://github.com/Nothing9495/wtgutil" + Environment.NewLine);
-            Console.WriteLine("Last build: 11/20/2022" + Environment.NewLine);
+            Console.WriteLine("Last build date: 12/04/2022" + Environment.NewLine);
             Console.WriteLine("If you come across any problems when you are using this utility," + Environment.NewLine + 
-                              "or you have any suggestions, it is welcomed to submit them to Github issues.");
+                              "or you have any suggestions, it is welcomed to submit them on Github issues.");
         }
     }
 
     internal class Message
     {
+        internal static void ShowWelcomeMsg()
+        {
+            Console.WriteLine("WindowsToGo Utility");
+            Console.WriteLine("Version: v3.0.1");
+        }
         internal static void ShowCompletedMsg()
         {
             Console.WriteLine("The operation completed successfully." + Environment.NewLine);
@@ -48,7 +57,7 @@ namespace WTG_Utility.Info
         internal static void ShowUnknownArgMsg()
         {
             Console.WriteLine();
-            Console.WriteLine("Unknown argument.");
+            Console.WriteLine("Unknown command.");
             Console.WriteLine("Type \"/help\" or \"/?\" for help.");
             Console.WriteLine();
         }
