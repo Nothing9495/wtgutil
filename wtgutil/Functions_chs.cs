@@ -27,17 +27,10 @@ namespace WTG_Utility.Functions_CHS
 
     internal class GetSettings
     {
-        internal static void CurrentInfoText()
-        {
-            Console.WriteLine("当前系统信息:");
-        }
-
         internal static void GetBootDriverFlags()
         {
             RegistryKey getBDF = Registry.LocalMachine.OpenSubKey("SYSTEM\\HardwareConfig\\Current");
             int statusBDF = (int)getBDF.GetValue("BootDriverFlags");
-            getBDF.Close();
-
             if (statusBDF == 20)                                           //BootDriverFlags Check
             {
                 Console.WriteLine("  从 USB 设备启动：支持");
@@ -54,6 +47,7 @@ namespace WTG_Utility.Functions_CHS
             {
                 Console.WriteLine("  从 USB 设备启动：状态未知");
             }
+            getBDF.Close();
         }
 
         internal static void GetPortableOSFeature()
@@ -80,6 +74,7 @@ namespace WTG_Utility.Functions_CHS
             {
                 Console.WriteLine("  WindowsToGo Feature: [ERR: 指定的注册表键值不存在]");
             }
+            getPOS.Close();
         }
 
 
@@ -87,8 +82,6 @@ namespace WTG_Utility.Functions_CHS
         {
             RegistryKey getPMGR = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Services\\partmgr\\Parameters");
             int statusPMGR = (int)getPMGR.GetValue("SanPolicy");
-            getPMGR.Close();
-
             if (statusPMGR == 4)                                            //Partmgr Check
             {
                 Console.WriteLine("  隐藏本地磁盘：是");
@@ -97,6 +90,7 @@ namespace WTG_Utility.Functions_CHS
             {
                 Console.WriteLine("  隐藏本地磁盘：否");
             }
+            getPMGR.Close();
         }
     }
 

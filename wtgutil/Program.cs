@@ -30,7 +30,7 @@ namespace WTG_Utility
                     Console.WriteLine();
                     Message.ShowWelcomeMsg();
                     Console.WriteLine();
-                    GetSettings.CurrentInfoText();
+                    Message.CurrentInfoText();
                     GetSettings.GetBootDriverFlags();
                     GetSettings.GetPortableOSFeature();
                     GetSettings.GetPartmgrSettings();

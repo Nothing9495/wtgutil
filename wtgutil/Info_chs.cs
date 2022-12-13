@@ -75,5 +75,9 @@ namespace WTG_Utility.Info_CHS
             Console.WriteLine("使用 \"/help\" 或 \"/?\" 来获取帮助.");
             Console.WriteLine();
         }
+        internal static void CurrentInfoText()
+        {
+            Console.WriteLine("当前系统信息:");
+        }
     }
 }

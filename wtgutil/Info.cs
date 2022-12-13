@@ -75,5 +75,9 @@ namespace WTG_Utility.Info
             Console.WriteLine("Type \"/help\" or \"/?\" for help.");
             Console.WriteLine();
         }
+        internal static void CurrentInfoText()
+        {
+            Console.WriteLine("Current Info:");
+        }
     }
 }

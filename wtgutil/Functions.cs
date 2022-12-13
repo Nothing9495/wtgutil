@@ -27,17 +27,10 @@ namespace WTG_Utility.Functions
 
     internal class GetSettings
     {
-        internal static void CurrentInfoText()
-        {
-            Console.WriteLine("Current Info:");
-        }
-
         internal static void GetBootDriverFlags()
         {
             RegistryKey getBDF = Registry.LocalMachine.OpenSubKey("SYSTEM\\HardwareConfig\\Current");
             int statusBDF = (int)getBDF.GetValue("BootDriverFlags");
-            getBDF.Close();
-
             if (statusBDF == 20)                                           //BootDriverFlags Check
             {
                 Console.WriteLine("  Boot from USB Devices: Supported");
@@ -54,6 +47,7 @@ namespace WTG_Utility.Functions
             {
                 Console.WriteLine("  Boot from USB Devices: Status unknown");
             }
+            getBDF.Close();
         }
 
         internal static void GetPortableOSFeature()
@@ -80,14 +74,13 @@ namespace WTG_Utility.Functions
             {
                 Console.WriteLine("  WindowsToGo Feature: [ERR: The specified registry key does not exist]");
             }
+            getPOS.Close();
         }
 
         internal static void GetPartmgrSettings()
         {
             RegistryKey getPMGR = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Services\\partmgr\\Parameters");
             int statusPMGR = (int)getPMGR.GetValue("SanPolicy");
-            getPMGR.Close();
-
             if (statusPMGR == 4)                                            //Partmgr Check
             {
                 Console.WriteLine("  Hide Local Disks: True");
@@ -96,6 +89,7 @@ namespace WTG_Utility.Functions
             {
                 Console.WriteLine("  Hide Local Disks: False");
             }
+            getPMGR.Close();
         }
     }
 
