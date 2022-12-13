@@ -72,7 +72,7 @@ namespace WTG_Utility.Functions_CHS
             }
             else
             {
-                Console.WriteLine("  WindowsToGo Feature: [ERR: 指定的注册表键值不存在]");
+                Console.WriteLine("  WinToGo 特性: [ERR: 指定的注册表键值不存在]");
             }
             getPOS.Close();
         }
