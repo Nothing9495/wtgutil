@@ -1,5 +1,5 @@
-# wtgutil _(WinToGo Utility)_
-**wtgutil** is a utility that helps you adjust your WindowsToGo workstation settings more ealisy when you have specific needs like upgrade it to newer version of Windows etc.
+# wtgutil
+**wtgutil** _(WinToGo Utility)_ is a utility that helps you adjust your WindowsToGo workstation settings more ealisy when you have specific needs like upgrade it to newer version of Windows etc.
 # Contents
 - [Background](#background)
 - [Install & Usage](#iau)
