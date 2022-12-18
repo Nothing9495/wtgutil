@@ -23,8 +23,8 @@ Note: This is my first time programming in C#, and this is my first-ever C# work
 ## Install
 Download the latest build from Github Release, rename it *wtgutil.exe*, then put it into `<SystemDrive>:\Windows` directory. By doing so, you can use this utility in Windows Terminal or PowerShell etc. directly without extra steps.
 ## Usage
-Open Windows Terminal(Admin) or PowerShell(Admin) and type `wtgutil /?` or `wtgutil /help`. The program will show you it's usage.  
-Note: The program needs to be run in Windows Terminal or PowerShell with administrator privileges. If not, it will refuse to start.
+Run Windows Terminal or PowerShell as admin and type `wtgutil /?` or `wtgutil /help`. The program will show you it's usage.  
+Note: The program needs to be run in Windows Terminal or PowerShell with admin privileges. If not, it will refuse to start.
 # Principle
 **wtgutil** realizes its functions by modifying the value of specific registry keys. The details are as follows.  
 - Path: `HKLM\SYSTEM\HardwareConfig\Current`  
