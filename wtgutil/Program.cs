@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using WTG_Utility.Functions; //To change language, add "_CHS" to the end of it. Like "Functions_CHS".
-using WTG_Utility.Info;      //To change language, add "_CHS" to the end of it. Like "Info_CHS".
+using WTG_Utility.Functions; //To change language, append "_CHS". like "Functions_CHS".
+using WTG_Utility.Info;      //To change language, append "_CHS". like "Info_CHS".
 
 namespace WTG_Utility
 {
