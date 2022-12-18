@@ -1,7 +1,7 @@
 #### This Readme.md is partially written with reference to Standard Readme, which is a very nice project!  
 # wtgutil
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)  
-**wtgutil** _(WinToGo Utility)_ is a utility that helps you adjust your WindowsToGo workstation settings more ealisy when you have specific needs like upgrade it to newer versions of Windows etc.
+**wtgutil** _(WinToGo Utility)_ helps you adjust your WindowsToGo workstation settings more easily when you have specific needs like upgrade it to newer versions of Windows etc.
 # Contents
 - [Background](#background)
 - [Install & Usage](#iau)
