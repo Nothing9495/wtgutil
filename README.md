@@ -11,6 +11,7 @@
 - [Principle](#principle)
 - [Q&A](#ques)
 - [Contributing](#contributing)
+- [Clarification](#clarification)
 - [License](#license)
 # Background
 I have a WindowsToGo System installed in my portable hard drive, and I want upgrade it to Windows11. But I find it impossible to upgrade due to Microsoft's restriction — or you can remove this restriction manually by modifying the specific registry key, which is a bit troublesome. So, I came up with the idea of this utility, made it come true, and plan to share it with others.  
@@ -43,5 +44,7 @@ Note: The program needs to be run in Windows Terminal or PowerShell with admin p
 See [Q&A](Ques.md)
 # Contributing
 **It is welcomed to make contributions to this project by create Pull Requests or submit an issue.**
+# Clarification
+You may notice there's a number of commits in this repo. I had to admit I spent a lot of ***"fragment time"*** working on this README, and whenever I had to leave, I did a commit to save the changes. I'm trying to minimize this as best I can. This will decrease as the README nears completion. Please forgive me.
 # License
 This project follows the [GNU GPLv3](LICENSE)
