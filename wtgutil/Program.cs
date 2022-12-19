@@ -10,7 +10,7 @@ namespace WTG_Utility
         static void Main(string[] args) //a bunch of if-else
         {
 
-            Console.Title = ("wtgutil v3");
+            Console.Title = ("wtgutil");
 
             IsAdmin.IsAdministrator();
 

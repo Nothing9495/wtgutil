@@ -27,6 +27,7 @@ namespace WTG_Utility.Info_CHS
             Console.WriteLine("WinToGo 实用程序 v3.0.1" + Environment.NewLine + "by Charles." + Environment.NewLine);
             Console.WriteLine("Github 存储库: https://github.com/Nothing9495/wtgutil" + Environment.NewLine);
             Console.WriteLine("上一次构建时间: 2022/12/04" + Environment.NewLine);
+            Console.WriteLine("WinToGo 实用程序 (wtgutil) 是一个自由、开源的软件");
             Console.WriteLine("如果你在使用本工具的过程中遇到任何问题，" + Environment.NewLine +
                               "或者有任何想法和建议，欢迎到 Github 上提交 issues.");
         }

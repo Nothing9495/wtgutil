@@ -27,6 +27,7 @@ namespace WTG_Utility.Info
             Console.WriteLine("WindowsToGo Utility v3.0.1" + Environment.NewLine + "by Charles." + Environment.NewLine);
             Console.WriteLine("Github repository: https://github.com/Nothing9495/wtgutil" + Environment.NewLine);
             Console.WriteLine("Last build date: 12/04/2022" + Environment.NewLine);
+            Console.WriteLine("wtgutil (WinToGo Utility) is a free and open-source program");
             Console.WriteLine("If you come across any problems when you are using this utility," + Environment.NewLine + 
                               "or you have any suggestions, it is welcomed to submit them on Github issues.");
         }
