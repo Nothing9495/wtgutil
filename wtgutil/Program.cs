@@ -1,9 +1,7 @@
-using System;
+﻿using System;
 using System.Linq;
-using System.Reflection;
-using System.Resources;
 using WTG_Utility.Functions; //To change language, append "_CHS". like "Functions_CHS".
-using WTG_Utility.Info; //To change language, append "_CHS". like "Info_CHS".
+using WTG_Utility.Info;      //To change language, append "_CHS". like "Info_CHS".
 
 namespace WTG_Utility
 {
@@ -15,13 +13,6 @@ namespace WTG_Utility
             Console.Title = ("wtgutil");
 
             IsAdmin.IsAdministrator();
-
-            string deviceInstancePath = GetSettings.GetWTGDriveInstancePath();
-            if (deviceInstancePath == null)
-            {
-                Console.WriteLine();
-                Console.WriteLine("An error occurred: No WindowsToGo drive detected.");
-            }
 
             if (args.Count() <= 0)
             {
@@ -43,7 +34,6 @@ namespace WTG_Utility
                     GetSettings.GetBootDriverFlags();
                     GetSettings.GetPortableOSFeature();
                     GetSettings.GetPartmgrSettings();
-                    GetSettings.GetUASPStatus(deviceInstancePath);
                     Console.WriteLine();
                     Message.ShowCompletedMsg();
 
@@ -79,10 +69,6 @@ namespace WTG_Utility
 
                     Message.ShowNoValidParamMsg();
 
-                }
-                else if (arg == "/uasp")
-                {
-                    Message.ShowNoValidParamMsg();
                 }
                 else
                 {
@@ -163,40 +149,6 @@ namespace WTG_Utility
 
                         Message.ShowUnknownParamMsg();
 
-                    }
-                }
-                else if (arg == "/uasp")
-                {
-                    if (param == "-disable")
-                    {
-                        Console.WriteLine();
-                        Message.ShowWelcomeMsg();
-                        ModifySettings.DisableUASP(deviceInstancePath);
-                        Console.WriteLine();
-                        Message.ShowCompletedMsg();
-                    }
-                    else if (param == "--disable-force")
-                    {
-                        Console.WriteLine();
-                        Message.ShowWelcomeMsg();
-                        Console.WriteLine();
-                        Message.ShowWarningMsg_FUASP();
-                        Message.ShowWaitingMsg();
-                        ModifySettings.DisableUASPbyReplaceDriverConfig();
-                        Console.WriteLine();
-                        Message.ShowCompletedMsg();
-                    }
-                    else if (param == "--disable-force-restore")
-                    {
-                        Console.WriteLine();
-                        Message.ShowWelcomeMsg();
-                        ModifySettings.RestoreUASPDriverConfig();
-                        Console.WriteLine();
-                        Message.ShowCompletedMsg();
-                    }
-                    else
-                    {
-                        Message.ShowUnknownParamMsg();
                     }
                 }
                 else
