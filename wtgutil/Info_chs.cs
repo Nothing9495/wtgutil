@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace WTG_Utility.Info_CHS
 {
@@ -14,6 +14,10 @@ namespace WTG_Utility.Info_CHS
             Console.WriteLine("   /partmgr -- 修改本地磁盘显示设置" + Environment.NewLine +
                               "     -showlocaldisks -- 系统启动时显示本地磁盘." + Environment.NewLine +
                               "     -hidelocaldisks -- 系统启动时隐藏本地磁盘." + Environment.NewLine);
+            Console.WriteLine("   /uasp -- 修改系统UASP设置" + Environment.NewLine +
+                              "     -disable -- 禁用UASP以实现“拔出冻结”，避免WTG设备意外断开连接导致系统崩溃." + Environment.NewLine +
+                              "     --disable-force -- 修改系统设置强行禁用UASP，这可能导致意外情况." + Environment.NewLine +
+                              "     --disable-force-restore -- 取消强行禁用UASP (如果WinToGo仍能启动)");
             Console.WriteLine("   /info -- 显示系统设置信息.");
             Console.WriteLine("   /about -- 关于本程序.");
             Console.WriteLine("   /help, /? -- 显示帮助信息." + Environment.NewLine);
@@ -24,9 +28,9 @@ namespace WTG_Utility.Info_CHS
         }
         internal static void GetAbout()
         {
-            Console.WriteLine("WinToGo 实用程序 v3.0.1" + Environment.NewLine + "by Charles." + Environment.NewLine);
+            Console.WriteLine("WinToGo 实用程序 v1.12.3" + Environment.NewLine + "by Charles." + Environment.NewLine);
             Console.WriteLine("Github 存储库: https://github.com/Nothing9495/wtgutil" + Environment.NewLine);
-            Console.WriteLine("上一次构建时间: 2022/12/04" + Environment.NewLine);
+            Console.WriteLine("上一次构建时间: 2025/04/03" + Environment.NewLine);
             Console.WriteLine("WinToGo 实用程序 (wtgutil) 是一个自由、开源的软件");
             Console.WriteLine("如果你在使用本工具的过程中遇到任何问题，" + Environment.NewLine +
                               "或者有任何想法和建议，欢迎到 Github 上提交 issues.");
@@ -38,7 +42,7 @@ namespace WTG_Utility.Info_CHS
         internal static void ShowWelcomeMsg()
         {
             Console.WriteLine("WindowsToGo 实用程序");
-            Console.WriteLine("程序版本: v3.0.1");
+            Console.WriteLine("程序版本: v1.12.3");
         }
         internal static void ShowCompletedMsg()
         {
@@ -75,6 +79,46 @@ namespace WTG_Utility.Info_CHS
             Console.WriteLine("未接受到有效参数.");
             Console.WriteLine("使用 \"/help\" 或 \"/?\" 来获取帮助.");
             Console.WriteLine();
+        }
+        internal static void ShowWarningMsg_FUASP()
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("警告: 这个操作可能导致系统损坏，甚至在下次启动时出现崩溃" + Environment.NewLine +
+                              "      如果你在应用后发生了崩溃，请尝试在其他电脑上还原以下注册表设置." + Environment.NewLine +
+                                                                                                                                            Environment.NewLine +
+                              "             注册表路径:  HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Services\\UASPSTOR" + Environment.NewLine +
+                              "             注册表键名:  ImagePath, Owners" + Environment.NewLine +
+                              "             原始值:      \\SystemRoot\\System32\\drivers\\uaspstor.sys, uaspstor.inf" + Environment.NewLine);
+            Console.WriteLine("继续代表你了解相关风险，并且有能力修复他们.");
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+        internal static void ShowWaitingMsg()
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("按 \"Y\" 以继续, 或者按 \"N\" 取消.");
+            Console.ResetColor();
+            char C = Console.ReadKey().KeyChar;
+            Console.WriteLine();
+            if (C == 'Y' || C == 'y')
+            {
+                // Continue
+            }
+            else if (C == 'N' || C == 'n')
+            {
+                Console.WriteLine();
+                Console.WriteLine("操作已被用户取消.");
+                Console.WriteLine();
+                Environment.Exit(1);
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("无效输入.");
+                ShowWaitingMsg();
+            }
         }
         internal static void CurrentInfoText()
         {

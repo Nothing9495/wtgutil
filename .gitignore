@@ -21,6 +21,7 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+[Bb]in/
 x64/
 x86/
 [Ww][Ii][Nn]32/
@@ -32,6 +33,8 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
+[Pp]ublish/
+[Ll]ogFiles/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -49,6 +52,7 @@ Generated\ Files/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+*.pfx
 
 # Build Results of an ATL Project
 [Dd]ebugPS/
