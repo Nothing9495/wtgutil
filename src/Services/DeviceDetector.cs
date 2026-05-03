@@ -63,8 +63,9 @@ namespace WTGUtility.Services
         /// <summary>
         /// Checks whether the current system is booted from a USB drive (i.e. a Windows To Go installation)
         /// by tracing the boot partition back to its physical disk via WMI.
+        /// Returns "USB" for direct USB mass storage, "SCSI" for UASP bridge, or empty string for local boot.
         /// </summary>
-        public bool IsBootDriveWtg()
+        public string GetBootDriveType()
         {
             try
             {
@@ -84,7 +85,7 @@ namespace WTGUtility.Services
 
                             // Direct USB mass storage
                             if (pnpId.StartsWith("USB", StringComparison.OrdinalIgnoreCase))
-                                return true;
+                                return "USB";
 
                             // UASP: disk appears as SCSI — check if its controller is USB-attached
                             if (pnpId.StartsWith("SCSI", StringComparison.OrdinalIgnoreCase))
@@ -99,7 +100,7 @@ namespace WTGUtility.Services
                                         string mfg = ctrl["Manufacturer"]?.ToString() ?? "";
                                         if (ctrlPnp.IndexOf("USB", StringComparison.OrdinalIgnoreCase) >= 0 ||
                                             mfg.IndexOf("USB", StringComparison.OrdinalIgnoreCase) >= 0)
-                                            return true;
+                                            return "SCSI";
                                     }
                                 }
                                 catch (ManagementException) { /* skip controller check */ }
@@ -112,7 +113,7 @@ namespace WTGUtility.Services
             catch (ManagementException) { /* WMI query failed */ }
             catch (Exception) { /* unexpected error */ }
 
-            return false;
+            return "";
         }
     }
 }
