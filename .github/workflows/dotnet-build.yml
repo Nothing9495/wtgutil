@@ -9,11 +9,15 @@ on:
       upload-tag:
         type: string
         default: "Build-Artifacts"
+      version:
+        type: string
+        default: "latest"
 
 env:
   IS_PRERELEASE: ${{ inputs.is-prerelease }}
   UPLOAD_ARTIFACT: ${{ inputs.upload-artifact }}
   UPLOAD_TAG: ${{ inputs.upload-tag }}
+  VERSION: ${{ inputs.version }}
 
 jobs:
   build:
@@ -27,20 +31,23 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Build (Release, x64)
-        run: dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=x64
+      - name: Build x64 and AnyCPU Releases
+        run: |
+          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=x64 -v detailed -o ./src/bin/ActionsBuild/wtgutil-${{ env.VERSION }}-x64.exe
+          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=AnyCPU -v detailed -o ./src/bin/ActionsBuild/wtgutil-${{ env.VERSION }}-x86_64.exe
 
-      - name: Upload artifact
+
+      - name: Upload artifacts
         if: env.UPLOAD_ARTIFACT == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: wtgutil-x64-Release
-          path: ./src/bin/x64/Release/
+          name: wtgutil-Release
+          path: ./src/bin/ActionsBuild/wtgutil-*.exe
 
       - name: Publish to GitHub Releases
         if: env.UPLOAD_ARTIFACT == 'true'
         uses: softprops/action-gh-release@v1
         with:
           prerelease: ${{ env.IS_PRERELEASE }}
-          files: ./src/bin/x64/Release/wtgutil.exe
+          files: ./src/bin/ActionsBuild/wtgutil-*.exe
           tag_name: ${{ env.UPLOAD_TAG }}

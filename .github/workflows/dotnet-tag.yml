@@ -16,4 +16,5 @@ jobs:
       is-prerelease: false
       upload-artifact: true
       upload-tag: ${{ github.ref_name }}
+      version: ${{ github.ref_name }}
 
