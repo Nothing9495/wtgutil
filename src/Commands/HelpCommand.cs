@@ -24,26 +24,29 @@ namespace WTGUtility.Commands
         /// </summary>
         public static string GenerateHelpText()
         {
-            var commands = GetAllCommands();
+            var groups = GetCommandGroups();
             var lines = new List<string>();
 
             lines.Add(Loc.Get("Help_Header"));
 
-            foreach (var cmd in commands)
+            foreach (var group in groups)
             {
-                if (cmd.SubCommandHelp.Length > 0)
+                foreach (var cmd in group)
                 {
-                    lines.Add($"  {cmd.Name,-22}{cmd.Description}");
-                    foreach (var subLine in cmd.SubCommandHelp.Split('\n'))
-                        lines.Add($"   {subLine}");
+                    if (cmd.SubCommandHelp.Length > 0)
+                    {
+                        lines.Add($"  {cmd.Name,-22}{cmd.Description}");
+                        foreach (var subLine in cmd.SubCommandHelp.Split('\n'))
+                            lines.Add($"   {subLine}");
+                    }
+                    else
+                    {
+                        lines.Add($"  {cmd.Name,-22}{cmd.Description}");
+                    }
                 }
-                else
-                {
-                    lines.Add($"  {cmd.Name,-22}{cmd.Description}");
-                }
+                lines.Add(""); // blank line between groups
             }
 
-            lines.Add("");
             lines.Add(Loc.Get("Help_GlobalOptions"));
             lines.Add("");
             lines.Add(Loc.Get("Help_Examples"));
@@ -51,18 +54,16 @@ namespace WTGUtility.Commands
             return string.Join("\n", lines);
         }
 
-        private static ICommand[] GetAllCommands()
+        /// <summary>
+        /// Commands grouped by category, separated by blank lines in output.
+        /// </summary>
+        private static ICommand[][] GetCommandGroups()
         {
-            return new ICommand[]
+            return new ICommand[][]
             {
-                new InfoCommand(),
-                new HelpCommand(),
-                new AboutCommand(),
-                new InstallCommand(),
-                new UninstallCommand(),
-                new ModeCommand(),
-                new PartmgrCommand(),
-                new UaspCommand(),
+                new ICommand[] { new InfoCommand(), new HelpCommand(), new AboutCommand() },
+                new ICommand[] { new InstallCommand(), new UninstallCommand() },
+                new ICommand[] { new ModeCommand(), new PartmgrCommand(), new UaspCommand() },
             };
         }
     }
