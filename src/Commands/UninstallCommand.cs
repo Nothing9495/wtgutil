@@ -41,7 +41,8 @@ namespace WTGUtility.Commands
 
                 bool removed = false;
                 string currentPath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-                bool runningFromInstallDir = currentPath.Equals(destPath, StringComparison.OrdinalIgnoreCase);
+                bool runningFromInstallDir = currentPath.Equals(destPath, StringComparison.OrdinalIgnoreCase)
+                                          || currentPath.Equals(aliasPath, StringComparison.OrdinalIgnoreCase);
 
                 // Remove wtgu.exe hard link alias
                 if (File.Exists(aliasPath))
