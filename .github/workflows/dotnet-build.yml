@@ -20,7 +20,7 @@ env:
   IS_PRERELEASE: ${{ inputs.is-prerelease }}
   UPLOAD_ARTIFACT: ${{ inputs.upload-artifact }}
   UPLOAD_TAG: ${{ inputs.upload-tag }}
-  VERSION: ${{ inputs.version }}
+  BUILD_VER: ${{ inputs.version }}
 
 jobs:
   build:
@@ -38,9 +38,9 @@ jobs:
         run: |
           mkdir ./src/bin/ActionsBuild -Force
           dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=x64
-          copy ./src/bin/x64/Release/wtgutil.exe ./src/bin/ActionsBuild/wtgutil-${{ env.VERSION }}-x64.exe
+          copy ./src/bin/x64/Release/wtgutil.exe ./src/bin/ActionsBuild/wtgutil-${{ env.BUILD_VER }}-x64.exe
           dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=AnyCPU
-          copy ./src/bin/Release/wtgutil.exe ./src/bin/ActionsBuild/wtgutil-${{ env.VERSION }}-x86_64.exe
+          copy ./src/bin/Release/wtgutil.exe ./src/bin/ActionsBuild/wtgutil-${{ env.BUILD_VER }}-x86_64.exe
 
 
       - name: Upload artifacts
