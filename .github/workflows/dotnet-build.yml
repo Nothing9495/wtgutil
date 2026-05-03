@@ -37,11 +37,8 @@ jobs:
       - name: Build x64 and AnyCPU Releases
         run: |
           mkdir ./src/bin/ActionsBuild -Force
-          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=x64
-          copy ./src/bin/x64/Release/wtgutil.exe ./src/bin/ActionsBuild/wtgutil-${{ env.BUILD_VER }}-x64.exe
-          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=AnyCPU
-          copy ./src/bin/Release/wtgutil.exe ./src/bin/ActionsBuild/wtgutil-${{ env.BUILD_VER }}-x86_64.exe
-
+          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=x64 /p:AssemblyName=wtgutil-${{ env.BUILD_VER }}-x64 -o ./src/bin/ActionsBuild
+          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=AnyCPU /p:AssemblyName=wtgutil-${{ env.BUILD_VER }}-x86_64 -o ./src/bin/ActionsBuild
 
       - name: Upload artifacts
         if: env.UPLOAD_ARTIFACT == 'true'
