@@ -8,5 +8,6 @@ jobs:
     uses: ./.github/workflows/dotnet-build.yml
     secrets: inherit
     with:
+      is-prerelease: true
       upload-artifact: true
       upload-tag: Manual-Build-${{ github.run_id }}

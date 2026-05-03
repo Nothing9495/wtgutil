@@ -10,6 +10,11 @@ on:
         type: string
         default: "Build-Artifacts"
 
+env:
+  IS_PRERELEASE: ${{ inputs.is-prerelease }}
+  UPLOAD_ARTIFACT: ${{ inputs.upload-artifact }}
+  UPLOAD_TAG: ${{ inputs.upload-tag }}
+
 jobs:
   build:
     runs-on: windows-latest
@@ -32,8 +37,9 @@ jobs:
           path: ./src/bin/x64/Release/
 
       - name: Publish to GitHub Releases
-        if: ${{ inputs.upload-artifact }}
+        if: env.UPLOAD_ARTIFACT == 'true'
         uses: softprops/action-gh-release@v1
         with:
+          prerelease: ${{ env.IS_PRERELEASE }}
           files: ./src/bin/x64/Release/wtgutil.exe
-          tag_name: ${{ inputs.upload-tag }}
+          tag_name: ${{ env.UPLOAD_TAG }}
