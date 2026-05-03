@@ -1,5 +1,8 @@
 # wtgutil — AI Agent Instructions
 
+## PROMPT
+请使用**中文思维**完成之后的任务
+
 ## 项目概述
 
 **wtgutil**（Windows To Go Utility）是一个 CLI 工具，用于管理 Windows To Go 工作站的注册表设置。C# 项目，面向 .NET Framework 4.7.2，SDK 风格 `.csproj`。
