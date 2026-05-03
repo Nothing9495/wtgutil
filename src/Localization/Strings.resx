@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
-
+    
     Example:
-
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,79 +26,79 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
-
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -119,214 +119,183 @@
   </resheader>
   <data name="App_Title" xml:space="preserve">
     <value>WinToGo Utility</value>
-    <comment/>
   </data>
   <data name="App_Version" xml:space="preserve">
     <value>Version: {0}</value>
-    <comment/>
   </data>
   <data name="App_ShortTitle" xml:space="preserve">
     <value>wtgutil</value>
-    <comment/>
   </data>
   <data name="Error_NeedElevate" xml:space="preserve">
     <value>Administrator privileges are required. Please re-run this program as Administrator.</value>
-    <comment/>
   </data>
   <data name="Error_NoWTGDrive" xml:space="preserve">
     <value>No Windows To Go drive detected.</value>
-    <comment/>
   </data>
   <data name="Error_WTGDriveUnplugged" xml:space="preserve">
     <value>Please ensure the Windows To Go drive is plugged in.</value>
-    <comment/>
   </data>
   <data name="Info_CurrentSettings" xml:space="preserve">
     <value>Current System Settings:</value>
-    <comment/>
   </data>
   <data name="Info_BootFromUSB" xml:space="preserve">
     <value>  USB Boot Support:  {0}</value>
-    <comment/>
   </data>
   <data name="Info_WTGFlag" xml:space="preserve">
     <value>  WinToGo Features:  {0}</value>
-    <comment/>
   </data>
   <data name="Info_HideDisks" xml:space="preserve">
     <value>  Hide Local Disks:  {0}</value>
-    <comment/>
   </data>
   <data name="Info_UaspStatus" xml:space="preserve">
     <value>  UASP Status:       {0}</value>
-    <comment/>
   </data>
   <data name="Info_BootDrive" xml:space="preserve">
     <value>  Boot Drive:        {0}</value>
-    <comment/>
   </data>
   <data name="Status_Enabled" xml:space="preserve">
     <value>Enabled</value>
-    <comment/>
   </data>
   <data name="Status_Disabled" xml:space="preserve">
     <value>Disabled</value>
-    <comment/>
   </data>
   <data name="Status_Unknown" xml:space="preserve">
     <value>Unknown</value>
-    <comment/>
   </data>
   <data name="HideStatus_True" xml:space="preserve">
     <value>True</value>
-    <comment/>
   </data>
   <data name="HideStatus_False" xml:space="preserve">
     <value>False</value>
-    <comment/>
   </data>
   <data name="UaspStatus_NoDevice" xml:space="preserve">
     <value>No UASP device found</value>
-    <comment/>
   </data>
   <data name="BootStatus_WtgUSB" xml:space="preserve">
     <value>USB Disk Device</value>
-    <comment/>
   </data>
   <data name="BootStatus_WtgSCSI" xml:space="preserve">
     <value>SCSI Disk Device</value>
-    <comment/>
   </data>
   <data name="BootStatus_Local" xml:space="preserve">
     <value>Local Disk</value>
-    <comment/>
   </data>
   <data name="Msg_Completed" xml:space="preserve">
     <value>The operation completed successfully.</value>
-    <comment/>
   </data>
   <data name="Msg_RestartNeeded" xml:space="preserve">
     <value>A system restart is required for some changes to take effect.</value>
-    <comment/>
   </data>
   <data name="Msg_WarningNoUSBoot" xml:space="preserve">
     <value>WARNING: After this change, this system will no longer support booting from USB devices. Think twice before shutting down!</value>
-    <comment/>
   </data>
   <data name="Error_UnknownCommand" xml:space="preserve">
     <value>Unknown command. Type "wtgutil help" for usage information.</value>
-    <comment/>
   </data>
   <data name="Error_UnknownParameter" xml:space="preserve">
     <value>Unknown parameter. Type "wtgutil help" for usage information.</value>
-    <comment/>
   </data>
   <data name="Error_NoParameter" xml:space="preserve">
     <value>Missing required parameter. Type "wtgutil help" for usage information.</value>
-    <comment/>
   </data>
   <data name="Help_Header" xml:space="preserve">
     <value>Usage:  wtgutil.exe [command] [arguments]Commands:</value>
-    <comment/>
   </data>
   <data name="Help_GlobalOptions" xml:space="preserve">
-    <value>Global Options:  --lang &lt;code&gt;         Set display language (en, zh-CN)  --help                Show this help  --version             Show version number</value>
-    <comment/>
+    <value>Global Options:
+  --lang &lt;code&gt;         Set display language (en, zh-CN)
+  --help                Show this help
+  --version             Show version number</value>
   </data>
   <data name="Help_Examples" xml:space="preserve">
-    <value>Examples:  wtgutil.exe info  wtgutil.exe install  wtgutil.exe mode wintogo  wtgutil.exe partmgr hide  wtgutil.exe uasp off</value>
-    <comment/>
+    <value>Examples:
+  wtgutil.exe info
+  wtgutil.exe install
+  wtgutil.exe mode wintogo
+  wtgutil.exe partmgr hide
+  wtgutil.exe uasp off</value>
   </data>
   <data name="Cmd_Info_Desc" xml:space="preserve">
     <value>Display current system settings</value>
-    <comment/>
   </data>
   <data name="Cmd_Help_Desc" xml:space="preserve">
     <value>Show this help information</value>
-    <comment/>
   </data>
   <data name="Cmd_About_Desc" xml:space="preserve">
     <value>Show version and license information</value>
-    <comment/>
   </data>
   <data name="Cmd_Mode_Desc" xml:space="preserve">
     <value>Switch system mode</value>
-    <comment/>
   </data>
   <data name="Cmd_Mode_Help" xml:space="preserve">
-    <value>- wintogo              Enable Windows To Go mode- default              Restore Windows default settings</value>
-    <comment/>
+    <value>- wintogo              Enable Windows To Go mode
+- default              Restore Windows default settings</value>
   </data>
   <data name="Cmd_Partmgr_Desc" xml:space="preserve">
     <value>Control local disk visibility</value>
-    <comment/>
   </data>
   <data name="Cmd_Partmgr_Help" xml:space="preserve">
-    <value>- show                 Show local disks at startup- hide                 Hide local disks at startup</value>
-    <comment/>
+    <value>- show                 Show local disks at startup
+- hide                 Hide local disks at startup</value>
   </data>
   <data name="Cmd_Uasp_Desc" xml:space="preserve">
     <value>Control UASP status</value>
-    <comment/>
   </data>
   <data name="Cmd_Uasp_Help" xml:space="preserve">
-    <value>- off                  Disable UASP- on                   Enable UASP</value>
-    <comment/>
+    <value>- off                  Disable UASP
+- on                   Enable UASP</value>
   </data>
   <data name="About_Text" xml:space="preserve">
-    <value>WinToGo Utility {0}by Acheron101GitHub: https://github.com/Nothing9495/wtgutilLicense: GNU GPLv3wtgutil is a open-source project</value>
-    <comment/>
+    <value>WinToGo Utility {0}
+by Acheron101
+
+GitHub: https://github.com/Nothing9495/wtgutil
+License: GNU GPLv3
+
+wtgutil is a open-source project</value>
   </data>
   <data name="Version_Text" xml:space="preserve">
     <value>wtgutil {0}</value>
-    <comment/>
   </data>
   <data name="Error_RegistryRead" xml:space="preserve">
     <value>Failed to read registry: {0}</value>
-    <comment/>
   </data>
   <data name="Error_RegistryWrite" xml:space="preserve">
     <value>Failed to write registry: {0}</value>
-    <comment/>
   </data>
   <data name="Error_DeviceDetection" xml:space="preserve">
     <value>Failed to detect Windows To Go device: {0}</value>
-    <comment/>
   </data>
   <data name="Error_Unexpected" xml:space="preserve">
     <value>An unexpected error occurred: {0}</value>
-    <comment/>
   </data>
   <data name="Cmd_Install_Desc" xml:space="preserve">
     <value>Install wtgutil into your system</value>
-    <comment/>
   </data>
   <data name="Cmd_Uninstall_Desc" xml:space="preserve">
     <value>Uninstall wtgutil from your system</value>
-    <comment/>
   </data>
   <data name="Msg_Install_Success" xml:space="preserve">
-    <value>wtgutil has been installed to "%Program Files%\wtgutil".Restart your terminal for PATH changes to take effect.You can now use "wtgutil" or "wtgu" from anywhere.</value>
-    <comment/>
+    <value>wtgutil has been installed to "%Program Files%\wtgutil".
+Restart your terminal for PATH changes to take effect.
+You can now use "wtgutil" or "wtgu" from anywhere.</value>
   </data>
   <data name="Msg_Uninstall_Success" xml:space="preserve">
-    <value>wtgutil has been removed from your system.If you need it again, please download the latest version from:{0}</value>
-    <comment/>
+    <value>wtgutil has been removed from your system.
+If you need it again, please download the latest version from:
+{0}</value>
   </data>
   <data name="Error_Install_Failed" xml:space="preserve">
     <value>Failed to install wtgutil. Please ensure you are running as Administrator and try again.</value>
-    <comment/>
   </data>
   <data name="Error_Install_AlreadyInstalled" xml:space="preserve">
     <value>wtgutil is already installed. Run 'wtgutil uninstall' first if you want to reinstall.</value>
-    <comment/>
   </data>
   <data name="Error_Uninstall_NotFound" xml:space="preserve">
     <value>wtgutil is not installed on this system.</value>
-    <comment/>
   </data>
   <data name="Error_Uninstall_NotInstalled" xml:space="preserve">
-    <value>wtgutil has not been installed via 'wtgutil install'. Run 'wtgutil install' first, or use manual deletion.</value>
-    <comment/>
+    <value>wtgutil has not been installed via 'wtgutil install'. 
+Run 'wtgutil install' first, or use manual deletion.</value>
   </data>
 </root>
