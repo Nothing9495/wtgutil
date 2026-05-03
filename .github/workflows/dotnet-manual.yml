@@ -1,25 +1,12 @@
 name: Build wtgutil (manual)
 
 on:
-  workflow_dispatch: # Allows manual triggering of the workflow from the GitHub Actions tab
+  workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup .NET SDK (for CLI)
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-
-      - name: Build (Release, x64)
-        run: dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=x64
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: wtgutil-x64-Release
-          path: ./src/bin/x64/Release/
+  run-flutter-tag-build:
+    uses: ./.github/workflows/dotnet-build.yml
+    secrets: inherit
+    with:
+      upload-artifact: true
+      upload-tag: Manual-Build-${{ github.run_id }}

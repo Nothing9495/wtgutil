@@ -1,0 +1,13 @@
+name: Build wtgutil (CI)
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  run-flutter-tag-build:
+    uses: ./.github/workflows/dotnet-build.yml
+    secrets: inherit
+    with:
+      upload-artifact: false

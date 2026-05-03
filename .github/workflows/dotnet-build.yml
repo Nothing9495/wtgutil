@@ -1,0 +1,32 @@
+name: Build wtgutil
+
+on:
+  workflow_call:
+    inputs:
+      upload-artifact:
+        type: boolean
+        default: true
+      upload-tag:
+        type: string
+        default: "Build-Artifacts"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build (Release, x64)
+        run: dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=x64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wtgutil-x64-Release
+          path: ./src/bin/x64/Release/
