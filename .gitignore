@@ -21,6 +21,7 @@ bin/
 obj/
 .vscode
 /docs/
+.editorconfig
 
 # Build results
 [Dd]ebug/

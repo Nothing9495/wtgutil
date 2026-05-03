@@ -1,50 +1,204 @@
-#### This Readme.md is partially written with reference to Standard Readme, which is a very nice project!  
 # wtgutil
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)  
-**wtgutil** _(WinToGo Utility)_ helps you adjust your WindowsToGo workstation settings more easily when you have specific needs like upgrade it to newer versions of Windows etc.
-# Contents
+
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+
+**wtgutil** (Windows To Go Utility) is a command-line tool that helps you manage and optimize your Windows To Go (WTG) workstation. It allows you to toggle WTG-specific registry settings, control local disk visibility, and manage the UASP (USB Attached SCSI Protocol) behavior of your WTG drive — all without manual registry editing.
+
+## Contents
+
 - [Background](#background)
-- [Install & Usage](#iau)
-  - [Requirements](#requirements)
+- [Features](#features)
+- [Install & Usage](#install--usage)
+  - [System Requirements](#system-requirements)
   - [Install](#install)
   - [Usage](#usage)
-- [Principle](#principle)
-- [Q&A](#ques)
+- [Commands](#commands)
+  - [info](#info)
+  - [mode](#mode)
+  - [partmgr](#partmgr)
+  - [uasp](#uasp)
+  - [help & about](#help--about)
+- [Global Options](#global-options)
+- [How It Works](#how-it-works)
+- [Q&A](#qa)
 - [Contributing](#contributing)
-- [Clarification](#clarification)
 - [License](#license)
-# Background
-I have a WindowsToGo System installed in my portable hard drive, and I want upgrade it to Windows11. But I find it impossible to upgrade due to Microsoft's restriction — or you can remove this restriction manually by modifying the specific registry key, which is a bit troublesome. So, I came up with the idea of this utility, made it come true, and plan to share it with others.  
-Note: This is my first time programming in C#, and this is my first-ever C# work. Not to mention that I have not received any systematic training, the source code might be a bit suck. If you have any suggestions on how to improve the quality of the code, please contact me or submit an issue or create Pull Requests.
-# <span id="iau">Install & Usage</span>
-## Requirements
-- System: Windows 7 (partially), Windows 8 or newer.
-- Achitecture: x86, amd64.
-- Runtime: .NET Framework 4.7.2 or newer.
-## Install
-Download the latest build from Github Release, rename it *wtgutil.exe*, then put it into `<SystemDrive>:\Windows` directory. By doing so, you can use this utility in Windows Terminal or PowerShell etc. directly without extra steps.
-## Usage
-Run Windows Terminal or PowerShell as admin and type `wtgutil /?` or `wtgutil /help`. The program will show you it's usage.  
-Note: The program needs to be run in Windows Terminal or PowerShell with admin privileges. If not, it will refuse to start.
-# Principle
-**wtgutil** realizes its functions by modifying the value of specific registry keys. The details are as follows.  
-- Path: `HKLM\SYSTEM\HardwareConfig\Current`  
-  - key: `BootDriverFlags`  
-  - value kind: dword
-  - value: `1` or `20`  
-- Path: `HKLM\SYSTEM\CurrentControlSet\Control`  
-  - key: `PortableOperatingSystem`  
-  - value kind: dword
-  - value: `1` or `0`   
-- Path: `HKLM\SYSTEM\CurrentControlSet\Services\partmgr\Parameters`  
-  - key: `SanPolicy`  
-  - value kind: dword
-  - value: `1` or `4`  
-# <span id="ques">Q&A</span>
-See [Q&A](Ques.md)
-# Contributing
-**It is welcomed to make contributions to this project by create Pull Requests or submit an issue.**
-# Clarification
-You may notice there's a number of commits in this repo. I had to admit I spent a lot of ***"fragment time"*** working on this README, and whenever I had to leave, I did a commit to save the changes. I'm trying to minimize this as best I can. This will decrease as the README nears completion. Please forgive me.
-# License
-This project follows the [GNU GPLv3](LICENSE)
+
+## Background
+
+Windows To Go allows you to run Windows from a USB drive, but Microsoft has progressively restricted this feature. For example, upgrading a WTG installation to Windows 11 is blocked by default unless certain registry keys are modified.
+
+This tool automates those modifications — originally created to simplify upgrading a WTG system to Windows 11, it has grown into a utility for general WTG system management.
+
+> **Note:** This is the author's first C# project. The code may not be idiomatic; suggestions and contributions are welcome!
+
+## Features
+
+- **View current settings** — Inspect all WTG-related registry values at a glance
+- **Toggle WTG mode** — Switch between Windows To Go mode and standard desktop mode
+- **Hide/show local disks** — Prevent the WTG system from mounting internal drives to avoid accidental modifications
+- **Manage UASP** — Enable or disable USB Attached SCSI Protocol on the WTG drive (disabling UASP improves stability on unexpected disconnection)
+- **Multi-language support** — Switch display language via `--lang` flag (English and Simplified Chinese)
+
+## Install & Usage
+
+### System Requirements
+
+- **OS:** Windows 10 or newer
+- **Architecture:** amd64
+- **Runtime:** .NET Framework 4.7.2 or newer
+- **Privileges:** Administrator rights (required for registry modifications)
+
+### Install
+
+1. Download the latest binary from the [Releases](https://github.com/Nothing9495/wtgutil/releases) page.
+2. Rename the downloaded file to `wtgutil.exe`.
+3. Place it in the `<SystemDrive>:\Windows` directory (typically `C:\Windows`).
+4. You can now run `wtgutil` directly from Windows Terminal, PowerShell, or Command Prompt.
+
+### Usage
+
+Run Windows Terminal, PowerShell, or Command Prompt **as Administrator**, then type:
+
+```cmd
+wtgutil <command> [arguments]
+```
+
+The program will exit immediately if not run with administrator privileges.
+
+To get started quickly:
+
+```cmd
+wtgutil help
+```
+
+## Commands
+
+### `info`
+
+Display all current WTG-related system settings, including:
+- USB boot status (`BootDriverFlags`)
+- Windows To Go flag (`PortableOperatingSystem`)
+- Local disk visibility (`SanPolicy`)
+- UASP status for the WTG drive
+
+```cmd
+wtgutil info
+```
+
+### `mode`
+
+Switch the system between Windows To Go mode and default desktop mode.
+
+| Subcommand   | Effect |
+|-------------|--------|
+| `wintogo`   | Enable Windows To Go mode — sets `BootDriverFlags=20`, `PortableOperatingSystem=1`, `SanPolicy=4` |
+| `default`   | Restore standard desktop settings — sets `BootDriverFlags=0`, `PortableOperatingSystem=0`, `SanPolicy=1` |
+
+```cmd
+wtgutil mode wintogo
+wtgutil mode default
+```
+
+> [!WARNING]
+> Switching to `default` mode will disable USB boot support. **Do not restart your WTG system** after applying this setting, or it may fail to boot from the USB drive.
+
+### `partmgr`
+
+Control whether local (internal) disks are visible to the WTG system.
+
+| Subcommand | Effect |
+|-----------|--------|
+| `show`     | Local disks are visible at startup (`SanPolicy=1`) |
+| `hide`     | Local disks are hidden at startup (`SanPolicy=4`) — prevents accidental writes to internal drives |
+
+```cmd
+wtgutil partmgr show
+wtgutil partmgr hide
+```
+
+> A system restart is required for changes to take effect.
+
+### `uasp`
+
+Enable or disable UASP (USB Attached SCSI Protocol) on the WTG drive.
+
+| Subcommand | Effect |
+|-----------|--------|
+| `off`      | Disable UASP — forces the USB mass storage driver (`USBSTOR`), which reduces data corruption risk when the drive is unexpectedly unplugged |
+| `on`       | (Experimental) Re-enable UASP — uses the native `UASPStor` driver for better performance |
+
+```cmd
+wtgutil uasp off
+wtgutil uasp on
+```
+
+> [!NOTE]
+> The `uasp` command requires a WTG drive to be detected. If no WTG drive is found, the command will report an error.
+
+### `help` & `about`
+
+```cmd
+wtgutil help       # Show usage information and all available commands
+wtgutil about      # Display version and license information
+```
+
+## Global Options
+
+These options can be placed before any command:
+
+| Option               | Description |
+|----------------------|-------------|
+| `--help`             | Show help information |
+| `--version`          | Display the version number |
+| `--lang <code>`      | Override display language. Supported codes: `en` (English), `zh-CN` (Simplified Chinese) |
+
+```cmd
+wtgutil --lang zh-CN info
+wtgutil --version
+```
+
+## How It Works
+
+**wtgutil** operates by modifying specific registry keys that control Windows To Go behavior. Below is the complete reference of affected registry entries.
+
+|Registry Key|Registry Path|Type|Value|Description|Value Description|
+|:-----------|:-----------:|:--:|:---:|:---------:|:---------------:|
+|`BootDriverFlags`|`HKLM\SYSTEM\HardwareConfig\Current`|`REG_DWORD`|`20`or`0`|Controls whether the system allows booting from USB devices.|`0` - System defaults<br>`20` - Allow booting from USB devices|
+|`PortableOperatingSystem`|`HKLM\SYSTEM\CurrentControlSet\Control`|`REG_DWORD`|`0`or`1`|Tells Windows it is running from a portable installation and enables Windows To Go features.|`0` - Disabled<br>`1` - Enable|
+|`SanPolicy`|`HKLM\SYSTEM\CurrentControlSet\Services\partmgr\Parameters`|`REG_DWORD`|`1`or`4`|Controls whether the partition manager exposes local/internal disks.|`1` - Show local disks<br>`4` - Hide local disks|
+|`Capabilities`<br>`DeviceDesc`<br>`Mfg`<br>`Service`|`HKLM\SYSTEM\CurrentControlSet\Enum\<deviceInstancePath>`|N/A|N/A|Disabling UASP modifies the device's registry entries under `HKLM\SYSTEM\CurrentControlSet\Enum\<DeviceInstancePath>` to use the `USBSTOR` driver instead of `UASPStor`. This improves resilience to sudden disconnection at the cost of peak I/O performance.|N/A|
+
+## Q&A
+
+**Q: Why does the tool require administrator privileges?**
+
+Because it reads and writes to `HKLM` (local machine) registry hives, which requires elevated access.
+
+**Q: What happens if I disable UASP?**
+
+The WTG drive switches from the UASP driver to the generic USB mass storage driver. This slightly reduces performance but eliminates the risk of filesystem corruption when the drive is unplugged without being safely removed first.
+
+**Q: Can I undo all changes?**
+
+Yes. Run `wtgutil mode default` and/or `wtgutil uasp on` to revert the settings, then restart your system.
+
+**Q: How do I know my current settings?**
+
+Run `wtgutil info` to display all current WTG-related values.
+
+**Q: Is the WTG drive auto-detected?**
+
+Yes. The tool uses WMI to query `Win32_SCSIController` and finds the USB controller associated with the WTG drive.
+
+## Contributing
+
+Contributions are welcome! Feel free to:
+
+- [Open an issue](https://github.com/Nothing9495/wtgutil/issues) for bug reports or feature requests
+- Submit a Pull Request with improvements
+
+## License
+
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
