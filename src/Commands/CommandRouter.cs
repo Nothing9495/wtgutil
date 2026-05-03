@@ -61,6 +61,12 @@ namespace WTGUtility.Commands
                     case "--version":
                         return RunVersion();
 
+                    case "--debug":
+                        _context.Debug = true;
+                        ConsoleOutput.IsDebug = true;
+                        args.RemoveAt(0);
+                        break;
+
                     default:
                         ConsoleOutput.WriteError(Loc.Get("Error_UnknownCommand"));
                         return 1;

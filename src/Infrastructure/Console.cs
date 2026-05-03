@@ -7,9 +7,21 @@ namespace WTGUtility.Infrastructure
     /// </summary>
     public static class ConsoleOutput
     {
+        /// <summary>Controls whether debug output is printed. Set by --debug global option.</summary>
+        public static bool IsDebug { get; set; }
+
         public static void WriteLine(string message = "")
         {
             Console.WriteLine(message);
+        }
+
+        public static void WriteDebug(string message)
+        {
+            if (!IsDebug) return;
+            var prev = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("[DEBUG] " + message);
+            Console.ForegroundColor = prev;
         }
 
         public static void WriteWarning(string message)

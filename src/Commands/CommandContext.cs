@@ -9,6 +9,7 @@ namespace WTGUtility.Commands
     {
         public WtgService WtgService { get; }
         public string WtgDeviceInstancePath { get; set; } = string.Empty;
+        public bool Debug { get; set; }
 
         public CommandContext(WtgService wtgService)
         {
