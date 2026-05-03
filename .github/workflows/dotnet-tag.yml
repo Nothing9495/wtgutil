@@ -13,8 +13,8 @@ jobs:
     uses: ./.github/workflows/dotnet-build.yml
     secrets: inherit
     with:
-      is-prerelease: false
       upload-artifact: true
       upload-tag: ${{ github.ref_name }}
       version: ${{ github.ref_name }}
+      is-prerelease: false
 

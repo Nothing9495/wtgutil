@@ -12,6 +12,9 @@ on:
       version:
         type: string
         default: "latest"
+      is-prerelease:
+        type: boolean
+        default: true
 
 env:
   IS_PRERELEASE: ${{ inputs.is-prerelease }}
@@ -33,10 +36,11 @@ jobs:
 
       - name: Build x64 and AnyCPU Releases
         run: |
-          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=x64 -o ./src/bin/ActionsBuild/x64
-          move ./src/bin/ActionsBuild/x64/wtgutil.exe ./src/bin/ActionsBuild/wtgutil-${{ env.VERSION }}-x64.exe
-          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=AnyCPU -o ./src/bin/ActionsBuild/AnyCPU
-          move ./src/bin/ActionsBuild/AnyCPU/wtgutil.exe ./src/bin/ActionsBuild/wtgutil-${{ env.VERSION }}-x86_64.exe
+          mkdir ./src/bin/ActionsBuild
+          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=x64
+          copy ./src/bin/x64/Release/wtgutil.exe ./src/bin/ActionsBuild/wtgutil-${{ env.VERSION }}-x64.exe
+          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=AnyCPU
+          copy ./src/bin/Release/wtgutil.exe ./src/bin/ActionsBuild/wtgutil-${{ env.VERSION }}-x86_64.exe
 
 
       - name: Upload artifacts
