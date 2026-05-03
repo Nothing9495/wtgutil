@@ -50,7 +50,7 @@ This tool automates those modifications — originally created to simplify upgra
 ### System Requirements
 
 - **OS:** Windows 10 or newer
-- **Architecture:** amd64
+- **Architecture:** x86, amd64
 - **Runtime:** .NET Framework 4.7.2 or newer
 - **Privileges:** Administrator rights (required for registry modifications)
 
