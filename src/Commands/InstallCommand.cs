@@ -43,7 +43,8 @@ namespace WTGUtility.Commands
                 // Create installation directory
                 Directory.CreateDirectory(installDir);
 
-                // Copy self to %ProgramFiles%\wtgutil\
+                // Copy self to %ProgramFiles%\wtgutil\ (auto-renamed to wtgutil.exe)
+                ConsoleOutput.WriteDebug($"Install: Copy \"{sourcePath}\" to \"{destPath}\"");
                 File.Copy(sourcePath, destPath, overwrite: true);
 
                 // Create hard link alias: wtgu.exe -> wtgutil.exe
