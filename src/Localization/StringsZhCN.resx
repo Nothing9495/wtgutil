@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_Title" xml:space="preserve">
+    <value>Windows To Go 实用程序</value>
+  </data>
+  <data name="App_Version" xml:space="preserve">
+    <value>程序版本: {0}</value>
+  </data>
+  <data name="App_ShortTitle" xml:space="preserve">
+    <value>wtgutil</value>
+  </data>
+  <data name="Error_NeedElevate" xml:space="preserve">
+    <value>需要管理员权限。请以管理员身份重新运行此程序。</value>
+  </data>
+  <data name="Error_NoWTGDrive" xml:space="preserve">
+    <value>未检测到 Windows To Go 驱动器。</value>
+  </data>
+  <data name="Error_WTGDriveUnplugged" xml:space="preserve">
+    <value>请确保已连接 WTG 驱动器。</value>
+  </data>
+  <data name="Info_CurrentSettings" xml:space="preserve">
+    <value>当前设置:</value>
+  </data>
+  <data name="Info_BootFromUSB_Enabled" xml:space="preserve">
+    <value>  从 USB 设备启动:      支持</value>
+  </data>
+  <data name="Info_BootFromUSB_Disabled" xml:space="preserve">
+    <value>  从 USB 设备启动:      不支持</value>
+  </data>
+  <data name="Info_BootFromUSB_Unknown" xml:space="preserve">
+    <value>  从 USB 设备启动:      状态未知</value>
+  </data>
+  <data name="Info_WTG_Enabled" xml:space="preserve">
+    <value>  Windows To Go 特性:   已启用</value>
+  </data>
+  <data name="Info_WTG_Disabled" xml:space="preserve">
+    <value>  Windows To Go 特性:   已禁用</value>
+  </data>
+  <data name="Info_WTG_Unknown" xml:space="preserve">
+    <value>  Windows To Go 特性:   状态未知</value>
+  </data>
+  <data name="Info_HideDisks_True" xml:space="preserve">
+    <value>  隐藏本地磁盘:          是</value>
+  </data>
+  <data name="Info_HideDisks_False" xml:space="preserve">
+    <value>  隐藏本地磁盘:          否</value>
+  </data>
+  <data name="Info_UASP_Disabled" xml:space="preserve">
+    <value>  UASP 状态:             已禁用</value>
+  </data>
+  <data name="Info_UASP_Enabled" xml:space="preserve">
+    <value>  UASP 状态:             已启用</value>
+  </data>
+  <data name="Info_UASP_Unknown" xml:space="preserve">
+    <value>  UASP 状态:             未知</value>
+  </data>
+  <data name="Msg_Completed" xml:space="preserve">
+    <value>操作成功完成。</value>
+  </data>
+  <data name="Msg_RestartNeeded" xml:space="preserve">
+    <value>部分更改需要重启系统才能生效。</value>
+  </data>
+  <data name="Msg_WarningNoUSBoot" xml:space="preserve">
+    <value>警告: 此操作后，系统将不再支持从 USB 设备启动。请不要轻易重启 WTG 工作站。</value>
+  </data>
+  <data name="Error_UnknownCommand" xml:space="preserve">
+    <value>未知命令。输入 "wtgutil help" 获取帮助。</value>
+  </data>
+  <data name="Error_UnknownParameter" xml:space="preserve">
+    <value>未知参数。输入 "wtgutil help" 获取帮助。</value>
+  </data>
+  <data name="Error_NoParameter" xml:space="preserve">
+    <value>缺少必要参数。输入 "wtgutil help" 获取帮助。</value>
+  </data>
+  <data name="Help_Header" xml:space="preserve">
+    <value>用法:
+  wtgutil.exe [命令] [参数]
+
+命令:</value>
+  </data>
+  <data name="Help_GlobalOptions" xml:space="preserve">
+    <value>全局选项:
+  --lang &lt;代码&gt;         覆盖显示语言 (en, zh-CN)
+  --help                显示此帮助
+  --version             显示版本号</value>
+  </data>
+  <data name="Help_Examples" xml:space="preserve">
+    <value>示例:
+  wtgutil.exe info
+  wtgutil.exe mode wintogo
+  wtgutil.exe partmgr hide
+  wtgutil.exe uasp off</value>
+  </data>
+  <data name="Cmd_Info_Desc" xml:space="preserve">
+    <value>显示当前 WTG 系统设置</value>
+  </data>
+  <data name="Cmd_Help_Desc" xml:space="preserve">
+    <value>显示此帮助信息</value>
+  </data>
+  <data name="Cmd_About_Desc" xml:space="preserve">
+    <value>显示版本和许可信息</value>
+  </data>
+  <data name="Cmd_Mode_Desc" xml:space="preserve">
+    <value>切换系统模式</value>
+  </data>
+  <data name="Cmd_Mode_Help" xml:space="preserve">
+    <value>  wintogo
+            → 启用 Windows To Go 模式
+  default
+            → 恢复 Windows 默认设置</value>
+  </data>
+  <data name="Cmd_Partmgr_Desc" xml:space="preserve">
+    <value>控制本地磁盘显示</value>
+  </data>
+  <data name="Cmd_Partmgr_Help" xml:space="preserve">
+    <value>  show
+            → 启动时显示本地磁盘
+  hide
+            → 启动时隐藏本地磁盘</value>
+  </data>
+  <data name="Cmd_Uasp_Desc" xml:space="preserve">
+    <value>控制 UASP (USB Attached SCSI Protocol)</value>
+  </data>
+  <data name="Cmd_Uasp_Help" xml:space="preserve">
+    <value>  off
+            → 禁用 UASP（启用"拔出冻结"）
+  on
+            → 重新启用 UASP</value>
+  </data>
+  <data name="About_Text" xml:space="preserve">
+    <value>Windows To Go 实用程序 {0}
+by charlesy
+
+GitHub: https://github.com/Nothing9495/wtgutil
+许可证: GNU GPLv3
+
+wtgutil (Windows To Go 实用程序) 是自由且开源的软件。
+如遇到问题或有任何建议，欢迎在 GitHub Issues 上提交。</value>
+  </data>
+  <data name="Version_Text" xml:space="preserve">
+    <value>wtgutil {0}</value>
+  </data>
+  <data name="Error_RegistryRead" xml:space="preserve">
+    <value>读取注册表失败: {0}</value>
+  </data>
+  <data name="Error_RegistryWrite" xml:space="preserve">
+    <value>写入注册表失败: {0}</value>
+  </data>
+  <data name="Error_DeviceDetection" xml:space="preserve">
+    <value>检测 WTG 设备失败: {0}</value>
+  </data>
+  <data name="Error_Unexpected" xml:space="preserve">
+    <value>发生意外错误: {0}</value>
+  </data>
+</root>
