@@ -1,3 +1,4 @@
+using WTGUtility.Infrastructure;
 using WTGUtility.Models;
 
 namespace WTGUtility.Services
@@ -35,6 +36,7 @@ namespace WTGUtility.Services
 
         public void EnableWinToGoMode()
         {
+            ConsoleOutput.WriteDebug("WtgService: EnableWinToGoMode() — setting BootDriverFlags=20, PortableOperatingSystem=1, SanPolicy=4");
             _registry.SetBootDriverFlags(20);
             _registry.SetPortableOperatingSystem(1);
             _registry.SetSanPolicy(4);
@@ -42,6 +44,7 @@ namespace WTGUtility.Services
 
         public void RestoreDefaults()
         {
+            ConsoleOutput.WriteDebug("WtgService: RestoreDefaults() — setting BootDriverFlags=0, PortableOperatingSystem=0, SanPolicy=1");
             _registry.SetBootDriverFlags(0);
             _registry.SetPortableOperatingSystem(0);
             _registry.SetSanPolicy(1);
@@ -49,21 +52,25 @@ namespace WTGUtility.Services
 
         public void ShowLocalDisks()
         {
+            ConsoleOutput.WriteDebug("WtgService: ShowLocalDisks() — setting SanPolicy=1");
             _registry.SetSanPolicy(1);
         }
 
         public void HideLocalDisks()
         {
+            ConsoleOutput.WriteDebug("WtgService: HideLocalDisks() — setting SanPolicy=4");
             _registry.SetSanPolicy(4);
         }
 
         public void DisableUasp(string deviceInstancePath)
         {
+            ConsoleOutput.WriteDebug($"WtgService: DisableUasp(deviceInstancePath=\"{deviceInstancePath}\")");
             _registry.DisableUasp(deviceInstancePath);
         }
 
         public void EnableUasp(string deviceInstancePath)
         {
+            ConsoleOutput.WriteDebug($"WtgService: EnableUasp(deviceInstancePath=\"{deviceInstancePath}\")");
             _registry.EnableUasp(deviceInstancePath);
         }
     }

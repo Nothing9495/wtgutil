@@ -36,6 +36,7 @@ namespace WTGUtility.Commands
         public int Route(string[] rawArgs)
         {
             var args = new List<string>(rawArgs);
+            ConsoleOutput.WriteDebug($"Route: raw args = [{string.Join(", ", rawArgs)}]");
 
             // Parse global options
             while (args.Count > 0 && args[0].StartsWith("--"))
@@ -48,6 +49,7 @@ namespace WTGUtility.Commands
                             try
                             {
                                 Loc.Culture = new System.Globalization.CultureInfo(args[1]);
+                                ConsoleOutput.WriteDebug($"Global: --lang {args[1]}");
                             }
                             catch { /* ignore invalid culture */ }
                             args.RemoveAt(0);
@@ -56,14 +58,17 @@ namespace WTGUtility.Commands
                         break;
 
                     case "--help":
+                        ConsoleOutput.WriteDebug("Global: --help → RunHelp()");
                         return RunHelp();
 
                     case "--version":
+                        ConsoleOutput.WriteDebug("Global: --version → RunVersion()");
                         return RunVersion();
 
                     case "--debug":
                         _context.Debug = true;
                         ConsoleOutput.IsDebug = true;
+                        ConsoleOutput.WriteDebug("Global: --debug enabled");
                         args.RemoveAt(0);
                         break;
 
@@ -75,11 +80,13 @@ namespace WTGUtility.Commands
 
             if (args.Count == 0)
             {
+                ConsoleOutput.WriteDebug("Route: no command, defaulting to help");
                 return RunHelp();
             }
 
             string command = args[0].ToLowerInvariant();
             args.RemoveAt(0);
+            ConsoleOutput.WriteDebug($"Route: command=\"{command}\", remaining args = [{string.Join(", ", args)}]");
 
             if (_routes.TryGetValue(command, out var handler))
             {

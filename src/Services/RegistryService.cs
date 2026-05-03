@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Win32;
+using WTGUtility.Infrastructure;
 using WTGUtility.Models;
 
 namespace WTGUtility.Services
@@ -44,13 +45,31 @@ namespace WTGUtility.Services
         {
             var settings = new WtgSettings();
 
+            // --- BootDriverFlags ---
             try
             {
                 using var bdfKey = Registry.LocalMachine.OpenSubKey(PathBootDriverFlags);
-                settings.BootDriverFlags = bdfKey != null ? (int)bdfKey.GetValue(ValBootDriverFlags, 0) : -1;
+                if (bdfKey != null)
+                {
+                    settings.BootDriverFlags = (int)bdfKey.GetValue(ValBootDriverFlags, 0);
+                    ConsoleOutput.WriteDebug(
+                        $"RegRead: HKLM\\{PathBootDriverFlags}\\{ValBootDriverFlags} = {settings.BootDriverFlags}");
+                }
+                else
+                {
+                    settings.BootDriverFlags = -1;
+                    ConsoleOutput.WriteDebug(
+                        $"RegRead: HKLM\\{PathBootDriverFlags} key not found, {ValBootDriverFlags} = -1");
+                }
             }
-            catch { settings.BootDriverFlags = -1; }
+            catch (Exception ex)
+            {
+                settings.BootDriverFlags = -1;
+                ConsoleOutput.WriteDebug(
+                    $"RegRead: HKLM\\{PathBootDriverFlags}\\{ValBootDriverFlags} ERROR: {ex.Message}");
+            }
 
+            // --- PortableOperatingSystem ---
             try
             {
                 using var posKey = Registry.LocalMachine.OpenSubKey(PathPortableOS);
@@ -63,10 +82,22 @@ namespace WTGUtility.Services
                         settings.PortableOperatingSystem = (int)posKey.GetValue(ValPortableOperatingSystem, 0);
                         settings.WindowsToGoEnabled = settings.PortableOperatingSystem == 1;
                     }
+                    ConsoleOutput.WriteDebug(
+                        $"RegRead: HKLM\\{PathPortableOS}\\{ValPortableOperatingSystem} = {settings.PortableOperatingSystem} (Exists={settings.WindowsToGoExists}, Enabled={settings.WindowsToGoEnabled})");
+                }
+                else
+                {
+                    ConsoleOutput.WriteDebug(
+                        $"RegRead: HKLM\\{PathPortableOS} key not found");
                 }
             }
-            catch { /* leave defaults */ }
+            catch (Exception ex)
+            {
+                ConsoleOutput.WriteDebug(
+                    $"RegRead: HKLM\\{PathPortableOS}\\{ValPortableOperatingSystem} ERROR: {ex.Message}");
+            }
 
+            // --- SanPolicy ---
             try
             {
                 using var pmgrKey = Registry.LocalMachine.OpenSubKey(PathPartmgrParams);
@@ -74,20 +105,33 @@ namespace WTGUtility.Services
                 {
                     settings.SanPolicy = (int)pmgrKey.GetValue(ValSanPolicy, 1);
                     settings.HideLocalDisks = settings.SanPolicy == 4;
+                    ConsoleOutput.WriteDebug(
+                        $"RegRead: HKLM\\{PathPartmgrParams}\\{ValSanPolicy} = {settings.SanPolicy} (HideLocalDisks={settings.HideLocalDisks})");
+                }
+                else
+                {
+                    ConsoleOutput.WriteDebug(
+                        $"RegRead: HKLM\\{PathPartmgrParams} key not found");
                 }
             }
-            catch { /* leave defaults */ }
+            catch (Exception ex)
+            {
+                ConsoleOutput.WriteDebug(
+                    $"RegRead: HKLM\\{PathPartmgrParams}\\{ValSanPolicy} ERROR: {ex.Message}");
+            }
 
-            // UASP status
+            // --- UASP status ---
             if (string.IsNullOrEmpty(deviceInstancePath))
             {
                 settings.UaspStatusDescription = "NoDevice";
+                ConsoleOutput.WriteDebug("UASP: No device instance path provided, status=NoDevice");
             }
             else
             {
                 try
                 {
-                    using var uaspKey = Registry.LocalMachine.OpenSubKey(PathEnumPrefix + deviceInstancePath);
+                    string fullPath = PathEnumPrefix + deviceInstancePath;
+                    using var uaspKey = Registry.LocalMachine.OpenSubKey(fullPath);
                     if (uaspKey != null)
                     {
                         int cap = (int)uaspKey.GetValue(ValCapabilities, 0);
@@ -95,17 +139,35 @@ namespace WTGUtility.Services
                         string mfg = uaspKey.GetValue(ValMfg, "") as string ?? "";
                         string svc = uaspKey.GetValue(ValService, "") as string ?? "";
 
+                        ConsoleOutput.WriteDebug(
+                            $"RegRead: HKLM\\{fullPath}\\{ValCapabilities} = 0x{cap:X8}");
+                        ConsoleOutput.WriteDebug(
+                            $"RegRead: HKLM\\{fullPath}\\{ValDeviceDesc} = \"{desc}\"");
+                        ConsoleOutput.WriteDebug(
+                            $"RegRead: HKLM\\{fullPath}\\{ValMfg} = \"{mfg}\"");
+                        ConsoleOutput.WriteDebug(
+                            $"RegRead: HKLM\\{fullPath}\\{ValService} = \"{svc}\"");
+
                         settings.UaspDisabled =
                             cap == UaspDisabledCapabilities &&
                             desc == UaspDisabledDeviceDesc &&
                             mfg == UaspDisabledMfg &&
                             svc == UaspDisabledService;
                         settings.UaspStatusDescription = settings.UaspDisabled ? "Disabled" : "Enabled";
+                        ConsoleOutput.WriteDebug(
+                            $"UASP status: {settings.UaspStatusDescription} (DevicePath={deviceInstancePath})");
+                    }
+                    else
+                    {
+                        ConsoleOutput.WriteDebug(
+                            $"RegRead: HKLM\\{fullPath} key not found");
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
                     settings.UaspStatusDescription = "Unknown";
+                    ConsoleOutput.WriteDebug(
+                        $"RegRead: UASP device key ERROR: {ex.Message}");
                 }
             }
 
@@ -115,6 +177,8 @@ namespace WTGUtility.Services
         /// <summary>Sets BootDriverFlags (20 = enable USB boot, 0 = disable).</summary>
         public void SetBootDriverFlags(int value)
         {
+            ConsoleOutput.WriteDebug(
+                $"RegWrite: HKLM\\{PathBootDriverFlags}\\{ValBootDriverFlags} = {value}");
             using var key = Registry.LocalMachine.CreateSubKey(PathBootDriverFlags);
             key.SetValue(ValBootDriverFlags, value, RegistryValueKind.DWord);
         }
@@ -122,6 +186,8 @@ namespace WTGUtility.Services
         /// <summary>Sets PortableOperatingSystem (1 = enabled, 0 = disabled).</summary>
         public void SetPortableOperatingSystem(int value)
         {
+            ConsoleOutput.WriteDebug(
+                $"RegWrite: HKLM\\{PathPortableOS}\\{ValPortableOperatingSystem} = {value}");
             using var key = Registry.LocalMachine.CreateSubKey(PathPortableOS);
             key.SetValue(ValPortableOperatingSystem, value, RegistryValueKind.DWord);
         }
@@ -129,6 +195,8 @@ namespace WTGUtility.Services
         /// <summary>Sets SanPolicy (4 = hide, 1 = show).</summary>
         public void SetSanPolicy(int value)
         {
+            ConsoleOutput.WriteDebug(
+                $"RegWrite: HKLM\\{PathPartmgrParams}\\{ValSanPolicy} = {value}");
             using var key = Registry.LocalMachine.CreateSubKey(PathPartmgrParams);
             key.SetValue(ValSanPolicy, value, RegistryValueKind.DWord);
         }
@@ -136,7 +204,16 @@ namespace WTGUtility.Services
         /// <summary>Disables UASP by modifying the device's registry entries.</summary>
         public void DisableUasp(string deviceInstancePath)
         {
-            using var key = Registry.LocalMachine.CreateSubKey(PathEnumPrefix + deviceInstancePath);
+            string fullPath = PathEnumPrefix + deviceInstancePath;
+            ConsoleOutput.WriteDebug(
+                $"RegWrite: HKLM\\{fullPath}\\{ValCapabilities} = 0x{UaspDisabledCapabilities:X8}");
+            ConsoleOutput.WriteDebug(
+                $"RegWrite: HKLM\\{fullPath}\\{ValDeviceDesc} = \"{UaspDisabledDeviceDesc}\"");
+            ConsoleOutput.WriteDebug(
+                $"RegWrite: HKLM\\{fullPath}\\{ValMfg} = \"{UaspDisabledMfg}\"");
+            ConsoleOutput.WriteDebug(
+                $"RegWrite: HKLM\\{fullPath}\\{ValService} = \"{UaspDisabledService}\"");
+            using var key = Registry.LocalMachine.CreateSubKey(fullPath);
             key.SetValue(ValCapabilities, UaspDisabledCapabilities, RegistryValueKind.DWord);
             key.SetValue(ValDeviceDesc, UaspDisabledDeviceDesc, RegistryValueKind.String);
             key.SetValue(ValMfg, UaspDisabledMfg, RegistryValueKind.String);
@@ -146,7 +223,16 @@ namespace WTGUtility.Services
         /// <summary>Re-enables UASP by reverting device registry entries to defaults.</summary>
         public void EnableUasp(string deviceInstancePath)
         {
-            using var key = Registry.LocalMachine.CreateSubKey(PathEnumPrefix + deviceInstancePath);
+            string fullPath = PathEnumPrefix + deviceInstancePath;
+            ConsoleOutput.WriteDebug(
+                $"RegWrite: HKLM\\{fullPath}\\{ValCapabilities} = 0x{DefaultCapabilities:X8}");
+            ConsoleOutput.WriteDebug(
+                $"RegWrite: HKLM\\{fullPath}\\{ValDeviceDesc} = \"{DefaultDeviceDesc}\"");
+            ConsoleOutput.WriteDebug(
+                $"RegWrite: HKLM\\{fullPath}\\{ValMfg} = \"{DefaultMfg}\"");
+            ConsoleOutput.WriteDebug(
+                $"RegWrite: HKLM\\{fullPath}\\{ValService} = \"{DefaultService}\"");
+            using var key = Registry.LocalMachine.CreateSubKey(fullPath);
             key.SetValue(ValCapabilities, DefaultCapabilities, RegistryValueKind.DWord);
             key.SetValue(ValDeviceDesc, DefaultDeviceDesc, RegistryValueKind.String);
             key.SetValue(ValMfg, DefaultMfg, RegistryValueKind.String);

@@ -21,12 +21,12 @@ namespace WTGUtility.Commands
         {
             ConsoleOutput.WriteBanner(Loc.Get("App_Title"), Loc.Format("App_Version", Loc.Version));
             ConsoleOutput.WriteSeparator();
-            Console.WriteLine(Loc.Get("Info_CurrentSettings"));
 
             var settings = ctx.WtgService.GetSettings(ctx.WtgDeviceInstancePath);
-
-            // Running on WTG drive?
             string bootType = ctx.WtgService.GetBootDriveType();
+
+            Console.WriteLine(Loc.Get("Info_CurrentSettings"));
+            // DriveType
             string bootDriveType = bootType switch
             {
                 "USB" => Loc.Get("BootStatus_WtgUSB"),
@@ -59,8 +59,8 @@ namespace WTGUtility.Commands
 
             // Partmgr
             string hideStatus = settings.HideLocalDisks
-                ? Loc.Get("HideStatus_True")
-                : Loc.Get("HideStatus_False");
+                ? Loc.Get("Status_True")
+                : Loc.Get("Status_False");
             Console.WriteLine(Loc.Format("Info_HideDisks", hideStatus));
 
             // UASP

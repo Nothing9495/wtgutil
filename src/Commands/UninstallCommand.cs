@@ -112,10 +112,17 @@ namespace WTGUtility.Commands
         private static bool IsInstalled()
         {
             using var key = Registry.LocalMachine.OpenSubKey(@"Software\wtgutil");
-            if (key == null) return false;
+            if (key == null)
+            {
+                ConsoleOutput.WriteDebug("RegRead: HKLM\\Software\\wtgutil key not found (IsInstalled=false)");
+                return false;
+            }
 
             object value = key.GetValue("InstallFlag", 0);
-            return value is int flag && flag == 1;
+            bool installed = value is int flag && flag == 1;
+            ConsoleOutput.WriteDebug(
+                $"RegRead: HKLM\\Software\\wtgutil\\InstallFlag = {value} (IsInstalled={installed})");
+            return installed;
         }
 
         /// <summary>
@@ -125,9 +132,13 @@ namespace WTGUtility.Commands
         {
             try
             {
+                ConsoleOutput.WriteDebug("RegDelete: HKLM\\Software\\wtgutil (DeleteSubKeyTree)");
                 Registry.LocalMachine.DeleteSubKeyTree(@"Software\wtgutil", throwOnMissingSubKey: false);
             }
-            catch { /* key already gone */ }
+            catch (Exception ex)
+            {
+                ConsoleOutput.WriteDebug($"RegDelete: HKLM\\Software\\wtgutil ERROR: {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -138,10 +149,16 @@ namespace WTGUtility.Commands
             const string pathKey = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
             using (var key = Registry.LocalMachine.OpenSubKey(pathKey, writable: true))
             {
-                if (key == null) return;
+                if (key == null)
+                {
+                    ConsoleOutput.WriteDebug($"RegRead: HKLM\\{pathKey} key not found (RemoveFromSystemPath)");
+                    return;
+                }
 
                 string currentPath = (string)key.GetValue("Path", "", RegistryValueOptions.DoNotExpandEnvironmentNames);
                 string pathEntry = @"%ProgramFiles%\wtgutil";
+                ConsoleOutput.WriteDebug(
+                    $"RegRead: HKLM\\{pathKey}\\Path = \"{currentPath}\"");
 
                 if (currentPath.IndexOf(pathEntry, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
@@ -153,7 +170,13 @@ namespace WTGUtility.Commands
                             filtered.Add(part);
                     }
                     string newPath = string.Join(";", filtered);
+                    ConsoleOutput.WriteDebug(
+                        $"RegWrite: HKLM\\{pathKey}\\Path = \"{newPath}\"");
                     key.SetValue("Path", newPath, RegistryValueKind.ExpandString);
+                }
+                else
+                {
+                    ConsoleOutput.WriteDebug("  => %ProgramFiles%\\wtgutil not in PATH, nothing to remove");
                 }
             }
         }

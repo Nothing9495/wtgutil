@@ -1,5 +1,6 @@
 using System;
 using System.Management;
+using WTGUtility.Infrastructure;
 using WTGUtility.Models;
 
 namespace WTGUtility.Services
@@ -17,6 +18,7 @@ namespace WTGUtility.Services
         {
             try
             {
+                ConsoleOutput.WriteDebug("WMI: Querying Win32_SCSIController for USB/SCSI devices...");
                 var controllerQuery = new ManagementObjectSearcher(
                     @"SELECT * FROM Win32_SCSIController 
                       WHERE Manufacturer LIKE '%USB%' 
@@ -27,6 +29,9 @@ namespace WTGUtility.Services
                     try
                     {
                         var controllerPath = controller.Path.Path;
+                        var controllerDeviceId = controller["DeviceID"]?.ToString() ?? "";
+                        ConsoleOutput.WriteDebug(
+                            $"WMI: Found SCSI controller DeviceID=\"{controllerDeviceId}\"");
 
                         var deviceQuery = new ManagementObjectSearcher($@"
                             ASSOCIATORS OF {{{controllerPath}}}
@@ -37,26 +42,43 @@ namespace WTGUtility.Services
                             try
                             {
                                 var deviceId = device["DeviceID"]?.ToString();
+                                ConsoleOutput.WriteDebug(
+                                    $"WMI:   Associated PnP device DeviceID=\"{deviceId}\"");
 
                                 if (!string.IsNullOrEmpty(deviceId) &&
                                     deviceId.StartsWith("USB", StringComparison.OrdinalIgnoreCase))
                                 {
+                                    ConsoleOutput.WriteDebug(
+                                        $"WMI:   => Matched USB device! InstancePath=\"{controllerDeviceId}\"");
                                     return new DeviceInfo
                                     {
-                                        InstancePath = controller["DeviceID"]?.ToString() ?? "",
+                                        InstancePath = controllerDeviceId,
                                         ControllerDeviceId = deviceId
                                     };
                                 }
                             }
-                            catch (ManagementException) { /* skip this device */ }
+                            catch (ManagementException ex)
+                            {
+                                ConsoleOutput.WriteDebug($"WMI:   PnP device query error: {ex.Message}");
+                            }
                         }
                     }
-                    catch (ManagementException) { /* skip this controller */ }
+                    catch (ManagementException ex)
+                    {
+                        ConsoleOutput.WriteDebug($"WMI: Controller association error: {ex.Message}");
+                    }
                 }
             }
-            catch (ManagementException) { /* WMI query failed */ }
-            catch (Exception) { /* unexpected error */ }
+            catch (ManagementException ex)
+            {
+                ConsoleOutput.WriteDebug($"WMI: SCSI controller query failed: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                ConsoleOutput.WriteDebug($"WMI: Unexpected error in DetectWtgDevice: {ex.Message}");
+            }
 
+            ConsoleOutput.WriteDebug("WMI: No WTG USB device found");
             return new DeviceInfo(); // IsFound will be false
         }
 
@@ -91,20 +113,20 @@ namespace WTGUtility.Services
                             string interfaceType = drive["InterfaceType"]?.ToString() ?? "";
                             string mediaType = drive["MediaType"]?.ToString() ?? "";
 
-                            Infrastructure.ConsoleOutput.WriteDebug(
+                            ConsoleOutput.WriteDebug(
                                 $"System disk: Model={model}, Interface={interfaceType}, Media={mediaType}, PnP={pnpId}");
 
                             // Direct USB mass storage
                             if (pnpId.StartsWith("USB", StringComparison.OrdinalIgnoreCase))
                             {
-                                Infrastructure.ConsoleOutput.WriteDebug("  => Matched: direct USB mass storage");
+                                ConsoleOutput.WriteDebug("  => Matched: direct USB mass storage");
                                 return "USB";
                             }
 
                             // Fixed hard disk media → definitely internal (NVMe / SATA / SAS)
                             if (mediaType.IndexOf("Fixed", StringComparison.OrdinalIgnoreCase) >= 0)
                             {
-                                Infrastructure.ConsoleOutput.WriteDebug(
+                                ConsoleOutput.WriteDebug(
                                     $"  => Fixed media → local disk");
                                 return "";
                             }
@@ -113,18 +135,18 @@ namespace WTGUtility.Services
                             if (mediaType.IndexOf("External", StringComparison.OrdinalIgnoreCase) >= 0 ||
                                 mediaType.IndexOf("Removable", StringComparison.OrdinalIgnoreCase) >= 0)
                             {
-                                Infrastructure.ConsoleOutput.WriteDebug("  => External/Removable media → UASP USB (SCSI)");
+                                ConsoleOutput.WriteDebug("  => External/Removable media → UASP USB (SCSI)");
                                 return "SCSI";
                             }
 
                             // Fallback: check interface type
                             if (interfaceType.IndexOf("USB", StringComparison.OrdinalIgnoreCase) >= 0)
                             {
-                                Infrastructure.ConsoleOutput.WriteDebug("  => USB interface type");
+                                ConsoleOutput.WriteDebug("  => USB interface type");
                                 return "USB";
                             }
 
-                            Infrastructure.ConsoleOutput.WriteDebug(
+                            ConsoleOutput.WriteDebug(
                                 $"  => Unknown type: Media=\"{mediaType}\", falling back to local");
                         }
                     }
@@ -132,14 +154,14 @@ namespace WTGUtility.Services
             }
             catch (ManagementException ex)
             {
-                Infrastructure.ConsoleOutput.WriteDebug("WMI error: " + ex.Message);
+                ConsoleOutput.WriteDebug("WMI error: " + ex.Message);
             }
             catch (Exception ex)
             {
-                Infrastructure.ConsoleOutput.WriteDebug("Unexpected error: " + ex.Message);
+                ConsoleOutput.WriteDebug("Unexpected error: " + ex.Message);
             }
 
-            Infrastructure.ConsoleOutput.WriteDebug("=> Not a WTG boot drive");
+            ConsoleOutput.WriteDebug("=> Not a WinToGo boot drive");
             return "";
         }
     }

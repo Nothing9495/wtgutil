@@ -162,10 +162,10 @@
   <data name="Status_Unknown" xml:space="preserve">
     <value>未知</value>
   </data>
-  <data name="HideStatus_True" xml:space="preserve">
+  <data name="Status_True" xml:space="preserve">
     <value>是</value>
   </data>
-  <data name="HideStatus_False" xml:space="preserve">
+  <data name="Status_False" xml:space="preserve">
     <value>否</value>
   </data>
   <data name="BootStatus_WtgUSB" xml:space="preserve">

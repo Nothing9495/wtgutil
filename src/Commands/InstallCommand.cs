@@ -108,15 +108,27 @@ namespace WTGUtility.Commands
             const string pathKey = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
             using (var key = Registry.LocalMachine.OpenSubKey(pathKey, writable: true))
             {
-                if (key == null) return;
+                if (key == null)
+                {
+                    ConsoleOutput.WriteDebug($"RegRead: HKLM\\{pathKey} key not found (AddToSystemPath)");
+                    return;
+                }
 
                 string currentPath = (string)key.GetValue("Path", "", RegistryValueOptions.DoNotExpandEnvironmentNames);
                 string pathEntry = @"%ProgramFiles%\wtgutil";
+                ConsoleOutput.WriteDebug(
+                    $"RegRead: HKLM\\{pathKey}\\Path = \"{currentPath}\"");
 
                 if (currentPath.IndexOf(pathEntry, StringComparison.OrdinalIgnoreCase) < 0)
                 {
                     string newPath = currentPath.TrimEnd(';') + ";" + pathEntry;
+                    ConsoleOutput.WriteDebug(
+                        $"RegWrite: HKLM\\{pathKey}\\Path = \"{newPath}\"");
                     key.SetValue("Path", newPath, RegistryValueKind.ExpandString);
+                }
+                else
+                {
+                    ConsoleOutput.WriteDebug("  => %ProgramFiles%\\wtgutil already in PATH, skipping");
                 }
             }
         }
@@ -127,10 +139,17 @@ namespace WTGUtility.Commands
         private static bool IsAlreadyInstalled()
         {
             using var key = Registry.LocalMachine.OpenSubKey(@"Software\wtgutil");
-            if (key == null) return false;
+            if (key == null)
+            {
+                ConsoleOutput.WriteDebug("RegRead: HKLM\\Software\\wtgutil key not found (IsAlreadyInstalled=false)");
+                return false;
+            }
 
             object value = key.GetValue("InstallFlag", 0);
-            return value is int flag && flag == 1;
+            bool installed = value is int flag && flag == 1;
+            ConsoleOutput.WriteDebug(
+                $"RegRead: HKLM\\Software\\wtgutil\\InstallFlag = {value} (IsAlreadyInstalled={installed})");
+            return installed;
         }
 
         /// <summary>
@@ -138,6 +157,8 @@ namespace WTGUtility.Commands
         /// </summary>
         private static void SetInstallFlag(int value)
         {
+            ConsoleOutput.WriteDebug(
+                $"RegWrite: HKLM\\Software\\wtgutil\\InstallFlag = {value}");
             using var key = Registry.LocalMachine.CreateSubKey(@"Software\wtgutil");
             key.SetValue("InstallFlag", value, RegistryValueKind.DWord);
         }
