@@ -56,7 +56,7 @@ namespace WTGUtility.Commands
                     if (runningFromInstallDir)
                     {
                         // Can't delete a running executable — schedule delayed deletion
-                        ScheduleSelfDeletion(destPath);
+                        ScheduleSelfDeletion(installDir);
                     }
                     else
                     {
@@ -81,6 +81,7 @@ namespace WTGUtility.Commands
                 // Notify the system about environment change
                 NotifyEnvironmentChange();
 
+                // Finish uninstallation
                 if (removed)
                 {
                     // Clear the install flag
@@ -130,7 +131,7 @@ namespace WTGUtility.Commands
         }
 
         /// <summary>
-        /// Removes the WTGUtility directory entry from the system PATH (HKLM).
+        /// Removes the wtgutil directory entry from the system PATH (HKLM).
         /// </summary>
         private static void RemoveFromSystemPath(string directory)
         {
@@ -183,7 +184,7 @@ namespace WTGUtility.Commands
             var psi = new System.Diagnostics.ProcessStartInfo
             {
                 FileName = "powershell.exe",
-                Arguments = $"-Command \"$p = Get-Process -Id {pid} -ErrorAction SilentlyContinue; if ($p) {{ $p.WaitForExit() }}; Remove-Item -Force '{filePath}'\"",
+                Arguments = $"-Command \"$p = Get-Process -Id {pid} -ErrorAction SilentlyContinue; if ($p) {{ $p.WaitForExit() }}; Remove-Item -Force '{filePath}' -Recurse\"",
                 CreateNoWindow = true,
                 WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
                 UseShellExecute = false

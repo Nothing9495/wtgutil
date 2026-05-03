@@ -271,9 +271,8 @@ If you encounter any issues or have suggestions, please submit them on GitHub Is
     <value>Uninstall wtgutil from your system</value>
   </data>
   <data name="Msg_Install_Success" xml:space="preserve">
-    <value>wtgutil has been installed to your system (Program Files\WTGUtility).
-Install directory has been added to the system PATH.
-You may need to restart your terminal for PATH changes to take effect.
+    <value>wtgutil has been installed to "%Program Files%\wtgutil".
+Restart your terminal for PATH changes to take effect.
 
 You can now use "wtgutil" or "wtgu" from anywhere.</value>
   </data>

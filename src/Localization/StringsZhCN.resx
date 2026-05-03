@@ -276,8 +276,7 @@ wtgutil (Windows To Go 实用程序) 是自由且开源的软件。
     <value>从操作系统中卸载 wtgutil</value>
   </data>
   <data name="Msg_Install_Success" xml:space="preserve">
-    <value>wtgutil 已安装到您的系统中 (Program Files\WTGUtility)。
-安装目录已添加到系统 PATH。
+    <value>wtgutil 已安装到 "%Program Files%\wtgutil"。
 您可能需要重启终端才能使 PATH 变更生效。
 
 现在您可以在任何位置使用 "wtgutil" 或 "wtgu" 命令。</value>
