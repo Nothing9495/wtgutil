@@ -14,6 +14,8 @@
   - [Install](#install)
   - [Usage](#usage)
 - [Commands](#commands)
+  - [install](#install-1)
+  - [uninstall](#uninstall)
   - [info](#info)
   - [mode](#mode)
   - [partmgr](#partmgr)
@@ -52,10 +54,25 @@ This tool automates those modifications — originally created to simplify upgra
 
 ### Install
 
+You can run `wtgutil` directly without installation — just download and go:
+
 1. Download the latest binary from the [Releases](https://github.com/Nothing9495/wtgutil/releases) page.
 2. Rename the downloaded file to `wtgutil.exe`.
-3. Place it in the `<SystemDrive>:\Windows` directory (typically `C:\Windows`).
-4. You can now run `wtgutil` directly from Windows Terminal, PowerShell, or Command Prompt.
+3. Run it directly from the download location:
+
+   ```cmd
+   .\wtgutil help
+   ```
+
+> [!TIP]
+> For convenience, run `wtgutil install` **as Administrator** to install it into your system, following operations will be carried out:
+> - Copies `wtgutil.exe` to `%ProgramFiles%\WTGUtility\`
+> - Creates a `wtgu` alias (hard link) so you can use `wtgu` in place of `wtgutil`
+> - Adds the install directory to the system `PATH`
+> - Adds `HKLM/Software/wtgutil/InstallFlag` key
+>
+> After one-time installation, you can use `wtgutil` or `wtgu` from anywhere.
+> If you want to remove wtgutil, simply run `wtgutil uninstall`
 
 ### Usage
 
@@ -74,6 +91,46 @@ wtgutil help
 ```
 
 ## Commands
+
+### `install`
+
+Install `wtgutil` into your system for global access.
+
+```cmd
+wtgutil install
+```
+
+What it does:
+- Copies `wtgutil.exe` to `%ProgramFiles%\wtgutil\`
+- Creates a `wtgu` hard link alias (`wtgu` works the same as `wtgutil`)
+- Adds the install directory to the system `PATH`
+- Sets an install flag in `HKLM\Software\wtgutil`
+
+After installation, the original executable is deleted automatically. You can then use `wtgutil` or `wtgu` from any terminal.
+
+> [!TIP]
+> A terminal restart may be required for the `PATH` change to take effect.
+
+### `uninstall`
+
+Remove `wtgutil` from your system.
+
+```cmd
+wtgutil uninstall
+```
+
+What it does:
+- Deletes `wtgutil.exe` and the `wtgu` alias from `%ProgramFiles%\wtgutil\`
+- Removes the install directory from the system `PATH`
+- Cleans up the `HKLM\Software\wtgutil` registry key
+
+> If `wtgutil` is running from the installed location, the executable is scheduled for deletion after the process exits.
+
+> [!TIP]
+> Need it again? Re-download from the [Releases page](https://github.com/Nothing9495/wtgutil/releases) and run `wtgutil install`.
+
+> [!WARNING]
+> `uninstall` will refuse to run unless `wtgutil` was installed via `wtgutil install`. This prevents accidental file deletion.
 
 ### `info`
 

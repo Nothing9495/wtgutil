@@ -1,5 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -138,19 +197,20 @@ Commands:</value>
   </data>
   <data name="Help_GlobalOptions" xml:space="preserve">
     <value>Global Options:
-  --lang &lt;code&gt;        Override display language (en, zh-CN)
+  --lang &lt;code&gt;         Set display language (en, zh-CN)
   --help                Show this help
   --version             Show version number</value>
   </data>
   <data name="Help_Examples" xml:space="preserve">
     <value>Examples:
   wtgutil.exe info
+  wtgutil.exe install
   wtgutil.exe mode wintogo
   wtgutil.exe partmgr hide
   wtgutil.exe uasp off</value>
   </data>
   <data name="Cmd_Info_Desc" xml:space="preserve">
-    <value>Display current WTG system settings</value>
+    <value>Display current system settings</value>
   </data>
   <data name="Cmd_Help_Desc" xml:space="preserve">
     <value>Show this help information</value>
@@ -162,28 +222,22 @@ Commands:</value>
     <value>Switch system mode</value>
   </data>
   <data name="Cmd_Mode_Help" xml:space="preserve">
-    <value>  wintogo
-            → Enable Windows To Go mode
-  default
-            → Restore Windows default settings</value>
+    <value>- wintogo              Enable Windows To Go mode
+- default              Restore Windows default settings</value>
   </data>
   <data name="Cmd_Partmgr_Desc" xml:space="preserve">
     <value>Control local disk visibility</value>
   </data>
   <data name="Cmd_Partmgr_Help" xml:space="preserve">
-    <value>  show
-            → Show local disks at startup
-  hide
-            → Hide local disks at startup</value>
+    <value>- show                 Show local disks at startup
+- hide                 Hide local disks at startup</value>
   </data>
   <data name="Cmd_Uasp_Desc" xml:space="preserve">
     <value>Control UASP (USB Attached SCSI Protocol)</value>
   </data>
   <data name="Cmd_Uasp_Help" xml:space="preserve">
-    <value>  off
-            → Disable UASP (enable "freeze on unplug")
-  on
-            → Re-enable UASP</value>
+    <value>- off                  Disable UASP (enable "freeze on unplug")
+- on                   Enable UASP</value>
   </data>
   <data name="About_Text" xml:space="preserve">
     <value>Windows To Go Utility {0}
@@ -209,5 +263,32 @@ If you encounter any issues or have suggestions, please submit them on GitHub Is
   </data>
   <data name="Error_Unexpected" xml:space="preserve">
     <value>An unexpected error occurred: {0}</value>
+  </data>
+  <data name="Cmd_Install_Desc" xml:space="preserve">
+    <value>Install wtgutil into your system</value>
+  </data>
+  <data name="Cmd_Uninstall_Desc" xml:space="preserve">
+    <value>Uninstall wtgutil from your system</value>
+  </data>
+  <data name="Msg_Install_Success" xml:space="preserve">
+    <value>wtgutil has been installed to your system (Program Files\WTGUtility).
+Install directory has been added to the system PATH.
+You may need to restart your terminal for PATH changes to take effect.
+
+You can now use "wtgutil" or "wtgu" from anywhere.</value>
+  </data>
+  <data name="Msg_Uninstall_Success" xml:space="preserve">
+    <value>wtgutil has been removed from your system.
+If you need it again, please download the latest version from:
+{0}</value>
+  </data>
+  <data name="Error_Install_Failed" xml:space="preserve">
+    <value>Failed to install wtgutil. Please ensure you are running as Administrator and try again.</value>
+  </data>
+  <data name="Error_Uninstall_NotFound" xml:space="preserve">
+    <value>wtgutil is not installed on this system.</value>
+  </data>
+  <data name="Error_Uninstall_NotInstalled" xml:space="preserve">
+    <value>wtgutil has not been installed via 'wtgutil install'. Run 'wtgutil install' first, or use manual deletion.</value>
   </data>
 </root>

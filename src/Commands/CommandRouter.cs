@@ -22,6 +22,8 @@ namespace WTGUtility.Commands
                 ["info"]    = _ => RunInfo(),
                 ["help"]    = _ => RunHelp(),
                 ["about"]   = _ => RunAbout(),
+                ["install"]   = _ => InstallCommand.Execute(_context),
+                ["uninstall"] = _ => UninstallCommand.Execute(_context),
                 ["mode"]    = args => RunWithSubCommand(args, ModeCommand.Execute),
                 ["partmgr"] = args => RunWithSubCommand(args, PartmgrCommand.Execute),
                 ["uasp"]    = args => RunWithSubCommand(args, UaspCommand.Execute),
@@ -91,7 +93,17 @@ namespace WTGUtility.Commands
                 return 1;
             }
         }
+        private int RunWithSubCommand(string[] subArgs, Func<CommandContext, string, int> handler)
+        {
+            if (subArgs.Length == 0)
+            {
+                ConsoleOutput.WriteError(Loc.Get("Error_NoParameter"));
+                return 1;
+            }
 
+            string sub = subArgs[0].ToLowerInvariant();
+            return handler(_context, sub);
+        }
         private int RunInfo()
         {
             try
@@ -125,18 +137,6 @@ namespace WTGUtility.Commands
         {
             Console.WriteLine(Loc.Format("Version_Text", Loc.Version));
             return 0;
-        }
-
-        private int RunWithSubCommand(string[] subArgs, Func<CommandContext, string, int> handler)
-        {
-            if (subArgs.Length == 0)
-            {
-                ConsoleOutput.WriteError(Loc.Get("Error_NoParameter"));
-                return 1;
-            }
-
-            string sub = subArgs[0].ToLowerInvariant();
-            return handler(_context, sub);
         }
     }
 }

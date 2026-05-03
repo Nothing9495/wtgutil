@@ -35,7 +35,7 @@ namespace WTGUtility.Commands
                 {
                     lines.Add($"  {cmd.Name,-22}{cmd.Description}");
                     foreach (var subLine in cmd.SubCommandHelp.Split('\n'))
-                        lines.Add($"    {subLine}");
+                        lines.Add($"   {subLine}");
                 }
                 else
                 {
@@ -58,6 +58,8 @@ namespace WTGUtility.Commands
                 new InfoCommand(),
                 new HelpCommand(),
                 new AboutCommand(),
+                new InstallCommand(),
+                new UninstallCommand(),
                 new ModeCommand(),
                 new PartmgrCommand(),
                 new UaspCommand(),

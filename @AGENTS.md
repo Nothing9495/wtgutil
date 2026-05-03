@@ -34,6 +34,7 @@ dotnet build src\wtgutil.csproj --configuration Release /p:Platform=x64
 - **本地化**：通过 `Loc.Get("key")` 获取字符串，`--lang` 全局选项覆盖语言
 - **管理员检查**：`app.manifest` 为 `asInvoker`，运行时在 `AdminCheck.EnsureAdministrator()` 中检测并退出
 - **单文件分发**：Costura.Fody 内嵌依赖 DLL
+- **安装/卸载**：`install` 复制自身到 `%ProgramFiles%\WTGUtility\`，通过 `mklink /h` 创建硬链接别名 `wtgu.exe`，并写入系统 PATH（`HKLM\...\Environment`）；卸载时逆向操作并清理 PATH
 - **LangVersion**：9.0（平台无关时），x64 平台强制指定 9.0
 
 ## 重要文件
@@ -50,6 +51,5 @@ dotnet build src\wtgutil.csproj --configuration Release /p:Platform=x64
 ## 常见陷阱
 
 - 构建必须指定 `.csproj` 路径，因目录下同时有 `.sln` 和 `.csproj`
-- `InstallCommand` 是开发中功能，`Cmd_Install_Desc` 为占位符 `"TEST DESCRIPTION"`
 - `ICommand.ExecuteAsync()` 方法当前未启用（返回 `Task.FromResult(0)`），实际执行走静态 `Execute` 方法
 - `.resx` 中 `StringsZhCN.resx` 是独立资源（非卫星程序集），通过 `LocalizationManager.cs` 中双重 `ResourceManager` 加载
