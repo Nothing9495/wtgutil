@@ -32,11 +32,11 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Build x64 and AnyCPU Releases
         run: |
-          mkdir ./src/bin/ActionsBuild
+          mkdir ./src/bin/ActionsBuild -Force
           dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=x64
           copy ./src/bin/x64/Release/wtgutil.exe ./src/bin/ActionsBuild/wtgutil-${{ env.VERSION }}-x64.exe
           dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=AnyCPU
