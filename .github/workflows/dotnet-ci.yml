@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  run-flutter-tag-build:
+  run-dotnet-build:
     uses: ./.github/workflows/dotnet-build.yml
     secrets: inherit
     with:

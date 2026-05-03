@@ -30,3 +30,10 @@ jobs:
         with:
           name: wtgutil-x64-Release
           path: ./src/bin/x64/Release/
+
+      - name: Publish to GitHub Releases
+        if: ${{ inputs.upload-artifact }}
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./src/bin/x64/Release/wtgutil.exe
+          tag_name: ${{ inputs.upload-tag }}

@@ -2,14 +2,14 @@ name: Build wtgutil (tag push)
 
 on:
   push:
-    tag:
+    tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
       - '[0-9]+.[0-9]+.[0-9]+'
       - 'v[0-9]+.[0-9]+.[0-9]+-[0-9]+'
       - '[0-9]+.[0-9]+.[0-9]+-[0-9]+'
 
 jobs:
-  run-flutter-tag-build:
+  run-dotnet-build:
     uses: ./.github/workflows/dotnet-build.yml
     secrets: inherit
     with:
