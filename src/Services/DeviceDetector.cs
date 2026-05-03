@@ -80,13 +80,30 @@ namespace WTGUtility.Services
 
                         foreach (ManagementObject drive in driveQuery.Get())
                         {
-                            try
+                            string pnpId = drive["PNPDeviceID"]?.ToString() ?? "";
+
+                            // Direct USB mass storage
+                            if (pnpId.StartsWith("USB", StringComparison.OrdinalIgnoreCase))
+                                return true;
+
+                            // UASP: disk appears as SCSI — check if its controller is USB-attached
+                            if (pnpId.StartsWith("SCSI", StringComparison.OrdinalIgnoreCase))
                             {
-                                string pnpId = drive["PNPDeviceID"]?.ToString() ?? "";
-                                if (pnpId.StartsWith("USB", StringComparison.OrdinalIgnoreCase))
-                                    return true;
+                                try
+                                {
+                                    var ctrlQuery = new ManagementObjectSearcher(
+                                        $"ASSOCIATORS OF {{{drive.Path.Path}}} WHERE ResultClass = Win32_SCSIController");
+                                    foreach (ManagementObject ctrl in ctrlQuery.Get())
+                                    {
+                                        string ctrlPnp = ctrl["PNPDeviceID"]?.ToString() ?? "";
+                                        string mfg = ctrl["Manufacturer"]?.ToString() ?? "";
+                                        if (ctrlPnp.IndexOf("USB", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                            mfg.IndexOf("USB", StringComparison.OrdinalIgnoreCase) >= 0)
+                                            return true;
+                                    }
+                                }
+                                catch (ManagementException) { /* skip controller check */ }
                             }
-                            catch (ManagementException) { /* skip this drive */ }
                         }
                     }
                     catch (ManagementException) { /* skip this partition */ }
