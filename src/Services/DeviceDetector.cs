@@ -59,5 +59,43 @@ namespace WTGUtility.Services
 
             return new DeviceInfo(); // IsFound will be false
         }
+
+        /// <summary>
+        /// Checks whether the current system is booted from a USB drive (i.e. a Windows To Go installation)
+        /// by tracing the boot partition back to its physical disk via WMI.
+        /// </summary>
+        public bool IsBootDriveWtg()
+        {
+            try
+            {
+                var partitionQuery = new ManagementObjectSearcher(
+                    "SELECT * FROM Win32_DiskPartition WHERE BootPartition = TRUE");
+
+                foreach (ManagementObject partition in partitionQuery.Get())
+                {
+                    try
+                    {
+                        var driveQuery = new ManagementObjectSearcher(
+                            $"ASSOCIATORS OF {{{partition.Path.Path}}} WHERE ResultClass = Win32_DiskDrive");
+
+                        foreach (ManagementObject drive in driveQuery.Get())
+                        {
+                            try
+                            {
+                                string pnpId = drive["PNPDeviceID"]?.ToString() ?? "";
+                                if (pnpId.StartsWith("USB", StringComparison.OrdinalIgnoreCase))
+                                    return true;
+                            }
+                            catch (ManagementException) { /* skip this drive */ }
+                        }
+                    }
+                    catch (ManagementException) { /* skip this partition */ }
+                }
+            }
+            catch (ManagementException) { /* WMI query failed */ }
+            catch (Exception) { /* unexpected error */ }
+
+            return false;
+        }
     }
 }

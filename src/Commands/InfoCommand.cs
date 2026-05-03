@@ -25,6 +25,12 @@ namespace WTGUtility.Commands
 
             var settings = ctx.WtgService.GetSettings(ctx.WtgDeviceInstancePath);
 
+            // Running on WTG drive?
+            string driveType = ctx.WtgService.IsRunningOnWtgDrive()
+                ? Loc.Get("Info_BootDrive_Wtg")
+                : Loc.Get("Info_BootDrive_Local");
+            Console.WriteLine(Loc.Format("Info_BootDrive", driveType));
+
             // BootDriverFlags
             string bootMsg = settings.BootDriverFlags switch
             {

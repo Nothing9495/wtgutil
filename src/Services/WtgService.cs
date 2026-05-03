@@ -27,6 +27,12 @@ namespace WTGUtility.Services
             return _registry.GetSettings(deviceInstancePath);
         }
 
+        /// <summary>Checks whether the current system is booted from a USB (Windows To Go) drive.</summary>
+        public bool IsRunningOnWtgDrive()
+        {
+            return _detector.IsBootDriveWtg();
+        }
+
         public void EnableWinToGoMode()
         {
             _registry.SetBootDriverFlags(20);
