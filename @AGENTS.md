@@ -45,8 +45,6 @@ dotnet build src\wtgutil.csproj --configuration Release /p:Platform=x64
 | `src/Services/RegistryService.cs` | 所有注册表操作集中管理 |
 | `src/Services/DeviceDetector.cs` | WMI 检测 WTG 设备 |
 | `src/Localization/LocalizationManager.cs` | 双语（EN/ZH-CN）本地化管理 |
-| `docs/MODERNIZATION_SPEC.md` | v2.0 用户面向变更文档 |
-| `docs/MODERNIZATION_TASKS.md` | v2.0 实施任务说明书 |
 | `LICENSE` | GNU GPLv3 |
 
 ## 常见陷阱
