@@ -79,27 +79,34 @@ namespace WTGUtility.Services
             catch { /* leave defaults */ }
 
             // UASP status
-            try
+            if (string.IsNullOrEmpty(deviceInstancePath))
             {
-                using var uaspKey = Registry.LocalMachine.OpenSubKey(PathEnumPrefix + deviceInstancePath);
-                if (uaspKey != null)
-                {
-                    int cap = (int)uaspKey.GetValue(ValCapabilities, 0);
-                    string desc = uaspKey.GetValue(ValDeviceDesc, "") as string ?? "";
-                    string mfg = uaspKey.GetValue(ValMfg, "") as string ?? "";
-                    string svc = uaspKey.GetValue(ValService, "") as string ?? "";
-
-                    settings.UaspDisabled =
-                        cap == UaspDisabledCapabilities &&
-                        desc == UaspDisabledDeviceDesc &&
-                        mfg == UaspDisabledMfg &&
-                        svc == UaspDisabledService;
-                    settings.UaspStatusDescription = settings.UaspDisabled ? "Disabled" : "Enabled";
-                }
+                settings.UaspStatusDescription = "NoDevice";
             }
-            catch
+            else
             {
-                settings.UaspStatusDescription = "Unknown";
+                try
+                {
+                    using var uaspKey = Registry.LocalMachine.OpenSubKey(PathEnumPrefix + deviceInstancePath);
+                    if (uaspKey != null)
+                    {
+                        int cap = (int)uaspKey.GetValue(ValCapabilities, 0);
+                        string desc = uaspKey.GetValue(ValDeviceDesc, "") as string ?? "";
+                        string mfg = uaspKey.GetValue(ValMfg, "") as string ?? "";
+                        string svc = uaspKey.GetValue(ValService, "") as string ?? "";
+
+                        settings.UaspDisabled =
+                            cap == UaspDisabledCapabilities &&
+                            desc == UaspDisabledDeviceDesc &&
+                            mfg == UaspDisabledMfg &&
+                            svc == UaspDisabledService;
+                        settings.UaspStatusDescription = settings.UaspDisabled ? "Disabled" : "Enabled";
+                    }
+                }
+                catch
+                {
+                    settings.UaspStatusDescription = "Unknown";
+                }
             }
 
             return settings;

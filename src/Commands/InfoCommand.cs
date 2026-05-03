@@ -56,6 +56,7 @@ namespace WTGUtility.Commands
             {
                 "Disabled" => Loc.Get("Info_UASP_Disabled"),
                 "Enabled" => Loc.Get("Info_UASP_Enabled"),
+                "NoDevice" => Loc.Get("Info_UASP_NoDevice"),
                 _ => Loc.Get("Info_UASP_Unknown")
             };
             Console.WriteLine(uaspMsg);
