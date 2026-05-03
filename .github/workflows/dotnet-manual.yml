@@ -1,4 +1,4 @@
-name: Build wtgutil (tag push)
+name: Build wtgutil (manual)
 
 on:
   workflow_dispatch: # Allows manual triggering of the workflow from the GitHub Actions tab
