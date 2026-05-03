@@ -33,8 +33,8 @@ jobs:
 
       - name: Build x64 and AnyCPU Releases
         run: |
-          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=x64 -v detailed -o ./src/bin/ActionsBuild/wtgutil-${{ env.VERSION }}-x64.exe
-          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=AnyCPU -v detailed -o ./src/bin/ActionsBuild/wtgutil-${{ env.VERSION }}-x86_64.exe
+          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=x64 -o ./src/bin/ActionsBuild/wtgutil-${{ env.VERSION }}-x64.exe
+          dotnet build ./src/wtgutil.csproj /p:Configuration=Release /p:Platform=AnyCPU -o ./src/bin/ActionsBuild/wtgutil-${{ env.VERSION }}-x86_64.exe
 
 
       - name: Upload artifacts
