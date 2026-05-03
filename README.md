@@ -41,6 +41,8 @@ This tool automates those modifications — originally created to simplify upgra
 - **Toggle WTG mode** — Switch between Windows To Go mode and standard desktop mode
 - **Hide/show local disks** — Prevent the WTG system from mounting internal drives to avoid accidental modifications
 - **Manage UASP** — Enable or disable USB Attached SCSI Protocol on the WTG drive (disabling UASP improves stability on unexpected disconnection)
+- **Install/uninstall** — Install to your system for global access, or cleanly remove it
+- **Debug mode** — Enable verbose debug output via `--debug` flag to inspect registry and WMI operations
 - **Multi-language support** — Switch display language via `--lang` flag (English and Simplified Chinese)
 
 ## Install & Usage
@@ -66,7 +68,7 @@ You can run `wtgutil` directly without installation — just download and go:
 
 > [!TIP]
 > For convenience, run `wtgutil install` **as Administrator** to install it into your system, following operations will be carried out:
-> - Copies `wtgutil.exe` to `%ProgramFiles%\WTGUtility\`
+> - Copies `wtgutil.exe` to `%ProgramFiles%\wtgutil\`
 > - Creates a `wtgu` alias (hard link) so you can use `wtgu` in place of `wtgutil`
 > - Adds the install directory to the system `PATH`
 > - Adds `HKLM/Software/wtgutil/InstallFlag` key
@@ -209,10 +211,12 @@ These options can be placed before any command:
 |----------------------|-------------|
 | `--help`             | Show help information |
 | `--version`          | Display the version number |
+| `--debug`            | Enable verbose debug output (registry operations, WMI queries, command routing) |
 | `--lang <code>`      | Override display language. Supported codes: `en` (English), `zh-CN` (Simplified Chinese) |
 
 ```cmd
 wtgutil --lang zh-CN info
+wtgutil --debug help
 wtgutil --version
 ```
 
@@ -248,6 +252,14 @@ Run `wtgutil info` to display all current WTG-related values.
 **Q: Is the WTG drive auto-detected?**
 
 Yes. The tool uses WMI to query `Win32_SCSIController` and finds the USB controller associated with the WTG drive.
+
+**Q: How can I see what the tool is doing under the hood?**
+
+Use the `--debug` flag before any command to enable verbose output. It shows every registry read/write, WMI query, and command routing step — useful for troubleshooting or understanding the tool's behavior.
+
+```cmd
+wtgutil --debug info
+```
 
 ## Contributing
 
