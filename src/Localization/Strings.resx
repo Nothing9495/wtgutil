@@ -168,9 +168,6 @@
   <data name="HideStatus_False" xml:space="preserve">
     <value>False</value>
   </data>
-  <data name="UaspStatus_NoDevice" xml:space="preserve">
-    <value>No UASP device found</value>
-  </data>
   <data name="BootStatus_WtgUSB" xml:space="preserve">
     <value>USB Disk Device</value>
   </data>
@@ -297,5 +294,11 @@ If you need it again, please download the latest version from:
   <data name="Error_Uninstall_NotInstalled" xml:space="preserve">
     <value>wtgutil has not been installed via 'wtgutil install'. 
 Run 'wtgutil install' first, or use manual deletion.</value>
+  </data>
+  <data name="Status_UaspNoDevice" xml:space="preserve">
+    <value>No UASP device found</value>
+  </data>
+  <data name="Status_UaspUnavailable" xml:space="preserve">
+    <value>UASP check unavailable</value>
   </data>
 </root>

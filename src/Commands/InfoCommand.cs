@@ -26,7 +26,8 @@ namespace WTGUtility.Commands
             var settings = ctx.WtgService.GetSettings(ctx.WtgDeviceInstancePath);
 
             // Running on WTG drive?
-            string bootDriveType = ctx.WtgService.GetBootDriveType() switch
+            string bootType = ctx.WtgService.GetBootDriveType();
+            string bootDriveType = bootType switch
             {
                 "USB" => Loc.Get("BootStatus_WtgUSB"),
                 "SCSI" => Loc.Get("BootStatus_WtgSCSI"),
@@ -63,14 +64,17 @@ namespace WTGUtility.Commands
             Console.WriteLine(Loc.Format("Info_HideDisks", hideStatus));
 
             // UASP
-            string uaspStatus = settings.UaspStatusDescription switch
-            {
-                "Disabled" => Loc.Get("Status_Disabled"),
-                "Enabled" => Loc.Get("Status_Enabled"),
-                "NoDevice" => Loc.Get("UaspStatus_NoDevice"),
-                _ => Loc.Get("Status_Unknown")
-            };
-            Console.WriteLine(Loc.Format("Info_UaspStatus", uaspStatus));
+            // Override display for local(fixed) boot drives
+            string uaspDisplay = bootType == ""
+                ? Loc.Get("Status_UaspUnavailable")
+                : settings.UaspStatusDescription switch
+                {
+                    "Disabled" => Loc.Get("Status_Disabled"),
+                    "Enabled" => Loc.Get("Status_Enabled"),
+                    "NoDevice" => Loc.Get("Status_UaspNoDevice"),
+                    _ => Loc.Get("Status_Unknown")
+                };
+            Console.WriteLine(Loc.Format("Info_UaspStatus", uaspDisplay));
 
             ConsoleOutput.WriteSeparator();
             Console.WriteLine(Loc.Get("Msg_Completed"));

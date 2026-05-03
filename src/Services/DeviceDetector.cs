@@ -69,12 +69,17 @@ namespace WTGUtility.Services
         {
             try
             {
-                var partitionQuery = new ManagementObjectSearcher(
-                    "SELECT * FROM Win32_DiskPartition WHERE BootPartition = TRUE");
+                // Trace from the system drive (C:) to its physical disk — this
+                // gives us exactly one disk, unlike BootPartition which may match many.
+                var logicalQuery = new ManagementObjectSearcher(
+                    "SELECT * FROM Win32_LogicalDisk WHERE DeviceID = 'C:'");
 
-                foreach (ManagementObject partition in partitionQuery.Get())
+                foreach (ManagementObject logical in logicalQuery.Get())
                 {
-                    try
+                    var partitionQuery = new ManagementObjectSearcher(
+                        $"ASSOCIATORS OF {{{logical.Path.Path}}} WHERE ResultClass = Win32_DiskPartition");
+
+                    foreach (ManagementObject partition in partitionQuery.Get())
                     {
                         var driveQuery = new ManagementObjectSearcher(
                             $"ASSOCIATORS OF {{{partition.Path.Path}}} WHERE ResultClass = Win32_DiskDrive");
@@ -82,37 +87,59 @@ namespace WTGUtility.Services
                         foreach (ManagementObject drive in driveQuery.Get())
                         {
                             string pnpId = drive["PNPDeviceID"]?.ToString() ?? "";
+                            string model = drive["Model"]?.ToString() ?? "";
+                            string interfaceType = drive["InterfaceType"]?.ToString() ?? "";
+                            string mediaType = drive["MediaType"]?.ToString() ?? "";
+
+                            Infrastructure.ConsoleOutput.WriteDebug(
+                                $"System disk: Model={model}, Interface={interfaceType}, Media={mediaType}, PnP={pnpId}");
 
                             // Direct USB mass storage
                             if (pnpId.StartsWith("USB", StringComparison.OrdinalIgnoreCase))
-                                return "USB";
-
-                            // UASP: disk appears as SCSI — check if its controller is USB-attached
-                            if (pnpId.StartsWith("SCSI", StringComparison.OrdinalIgnoreCase))
                             {
-                                try
-                                {
-                                    var ctrlQuery = new ManagementObjectSearcher(
-                                        $"ASSOCIATORS OF {{{drive.Path.Path}}} WHERE ResultClass = Win32_SCSIController");
-                                    foreach (ManagementObject ctrl in ctrlQuery.Get())
-                                    {
-                                        string ctrlPnp = ctrl["PNPDeviceID"]?.ToString() ?? "";
-                                        string mfg = ctrl["Manufacturer"]?.ToString() ?? "";
-                                        if (ctrlPnp.IndexOf("USB", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                                            mfg.IndexOf("USB", StringComparison.OrdinalIgnoreCase) >= 0)
-                                            return "SCSI";
-                                    }
-                                }
-                                catch (ManagementException) { /* skip controller check */ }
+                                Infrastructure.ConsoleOutput.WriteDebug("  => Matched: direct USB mass storage");
+                                return "USB";
                             }
+
+                            // Fixed hard disk media → definitely internal (NVMe / SATA / SAS)
+                            if (mediaType.IndexOf("Fixed", StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                Infrastructure.ConsoleOutput.WriteDebug(
+                                    $"  => Fixed media → local disk");
+                                return "";
+                            }
+
+                            // External or Removable media on SCSI bus → UASP USB
+                            if (mediaType.IndexOf("External", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                mediaType.IndexOf("Removable", StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                Infrastructure.ConsoleOutput.WriteDebug("  => External/Removable media → UASP USB (SCSI)");
+                                return "SCSI";
+                            }
+
+                            // Fallback: check interface type
+                            if (interfaceType.IndexOf("USB", StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                Infrastructure.ConsoleOutput.WriteDebug("  => USB interface type");
+                                return "USB";
+                            }
+
+                            Infrastructure.ConsoleOutput.WriteDebug(
+                                $"  => Unknown type: Media=\"{mediaType}\", falling back to local");
                         }
                     }
-                    catch (ManagementException) { /* skip this partition */ }
                 }
             }
-            catch (ManagementException) { /* WMI query failed */ }
-            catch (Exception) { /* unexpected error */ }
+            catch (ManagementException ex)
+            {
+                Infrastructure.ConsoleOutput.WriteDebug("WMI error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Infrastructure.ConsoleOutput.WriteDebug("Unexpected error: " + ex.Message);
+            }
 
+            Infrastructure.ConsoleOutput.WriteDebug("=> Not a WTG boot drive");
             return "";
         }
     }

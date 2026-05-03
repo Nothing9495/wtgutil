@@ -168,9 +168,6 @@
   <data name="HideStatus_False" xml:space="preserve">
     <value>否</value>
   </data>
-  <data name="UaspStatus_NoDevice" xml:space="preserve">
-    <value>未找到 UASP 设备</value>
-  </data>
   <data name="BootStatus_WtgUSB" xml:space="preserve">
     <value>USB 磁盘（USB Disk Device）</value>
   </data>
@@ -296,5 +293,11 @@ wtgutil 是一个开源项目</value>
   </data>
   <data name="Error_Uninstall_NotInstalled" xml:space="preserve">
     <value>wtgutil 尚未通过 'wtgutil install' 安装。请先运行 'wtgutil install'，或手动删除文件。</value>
+  </data>
+  <data name="Status_UaspNoDevice" xml:space="preserve">
+    <value>未找到 UASP 设备</value>
+  </data>
+  <data name="Status_UaspUnavailable" xml:space="preserve">
+    <value>UASP 检查不可用</value>
   </data>
 </root>
