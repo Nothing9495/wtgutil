@@ -26,46 +26,51 @@ namespace WTGUtility.Commands
             var settings = ctx.WtgService.GetSettings(ctx.WtgDeviceInstancePath);
 
             // Running on WTG drive?
-            string driveType = ctx.WtgService.IsRunningOnWtgDrive()
-                ? Loc.Get("Info_BootDrive_Wtg")
-                : Loc.Get("Info_BootDrive_Local");
-            Console.WriteLine(Loc.Format("Info_BootDrive", driveType));
+            string bootDriveType = ctx.WtgService.GetBootDriveType() switch
+            {
+                "USB" => Loc.Get("BootStatus_WtgUSB"),
+                "SCSI" => Loc.Get("BootStatus_WtgSCSI"),
+                _ => Loc.Get("BootStatus_Local")
+            };
+            Console.WriteLine(Loc.Format("Info_BootDrive", bootDriveType));
 
             // BootDriverFlags
-            string bootMsg = settings.BootDriverFlags switch
+            string bootStatus = settings.BootDriverFlags switch
             {
-                20 or 28 => Loc.Get("Info_BootFromUSB_Enabled"),
-                0 => Loc.Get("Info_BootFromUSB_Disabled"),
-                _ => Loc.Get("Info_BootFromUSB_Unknown")
+                20 or 28 => Loc.Get("Status_Enabled"),
+                0 => Loc.Get("Status_Disabled"),
+                _ => Loc.Get("Status_Unknown")
             };
-            Console.WriteLine(bootMsg);
+            Console.WriteLine(Loc.Format("Info_BootFromUSB", bootStatus));
 
             // PortableOS
             if (settings.WindowsToGoExists)
             {
-                Console.WriteLine(settings.WindowsToGoEnabled
-                    ? Loc.Get("Info_WTG_Enabled")
-                    : Loc.Get("Info_WTG_Disabled"));
+                string wtgStatus = settings.WindowsToGoEnabled
+                    ? Loc.Get("Status_Enabled")
+                    : Loc.Get("Status_Disabled");
+                Console.WriteLine(Loc.Format("Info_WTGFlag", wtgStatus));
             }
             else
             {
-                Console.WriteLine(Loc.Get("Info_WTG_Unknown"));
+                Console.WriteLine(Loc.Format("Info_WTGFlag", Loc.Get("Status_Unknown")));
             }
 
             // Partmgr
-            Console.WriteLine(settings.HideLocalDisks
-                ? Loc.Get("Info_HideDisks_True")
-                : Loc.Get("Info_HideDisks_False"));
+            string hideStatus = settings.HideLocalDisks
+                ? Loc.Get("HideStatus_True")
+                : Loc.Get("HideStatus_False");
+            Console.WriteLine(Loc.Format("Info_HideDisks", hideStatus));
 
             // UASP
-            string uaspMsg = settings.UaspStatusDescription switch
+            string uaspStatus = settings.UaspStatusDescription switch
             {
-                "Disabled" => Loc.Get("Info_UASP_Disabled"),
-                "Enabled" => Loc.Get("Info_UASP_Enabled"),
-                "NoDevice" => Loc.Get("Info_UASP_NoDevice"),
-                _ => Loc.Get("Info_UASP_Unknown")
+                "Disabled" => Loc.Get("Status_Disabled"),
+                "Enabled" => Loc.Get("Status_Enabled"),
+                "NoDevice" => Loc.Get("UaspStatus_NoDevice"),
+                _ => Loc.Get("Status_Unknown")
             };
-            Console.WriteLine(uaspMsg);
+            Console.WriteLine(Loc.Format("Info_UaspStatus", uaspStatus));
 
             ConsoleOutput.WriteSeparator();
             Console.WriteLine(Loc.Get("Msg_Completed"));
