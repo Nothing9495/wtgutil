@@ -32,6 +32,14 @@ namespace WTGUtility.Commands
                 string destPath = Path.Combine(installDir, "wtgutil.exe");
                 string aliasPath = Path.Combine(installDir, "wtgu.exe");
 
+                // Guard: refuse if already installed
+                if (IsAlreadyInstalled())
+                {
+                    ConsoleOutput.WriteSeparator();
+                    ConsoleOutput.WriteError(Loc.Get("Error_Install_AlreadyInstalled"));
+                    return 1;
+                }
+
                 // Create installation directory
                 Directory.CreateDirectory(installDir);
 
@@ -111,6 +119,18 @@ namespace WTGUtility.Commands
                     key.SetValue("Path", newPath, RegistryValueKind.ExpandString);
                 }
             }
+        }
+
+        /// <summary>
+        /// Checks whether wtgutil is already installed via the InstallFlag in the registry.
+        /// </summary>
+        private static bool IsAlreadyInstalled()
+        {
+            using var key = Registry.LocalMachine.OpenSubKey(@"Software\wtgutil");
+            if (key == null) return false;
+
+            object value = key.GetValue("InstallFlag", 0);
+            return value is int flag && flag == 1;
         }
 
         /// <summary>
