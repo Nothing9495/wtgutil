@@ -155,7 +155,7 @@ namespace WTGUtility.Services
                             svc == UaspDisabledService;
                         settings.UaspStatusDescription = settings.UaspDisabled ? "Disabled" : "Enabled";
                         ConsoleOutput.WriteDebug(
-                            $"UASP status: {settings.UaspStatusDescription} (DevicePath={deviceInstancePath})");
+                            $"UASP: {settings.UaspStatusDescription} (DevicePath={deviceInstancePath})");
                     }
                     else
                     {
