@@ -34,9 +34,9 @@ namespace WTGUtility.Services
 
         // Default (UASP enabled) values to restore
         private const int DefaultCapabilities = 0x00000094;
-        private const string DefaultService = "UASPStor";
         private const string DefaultDeviceDesc = "@usbstor.inf,%genericbulkonly.devicedesc%;USB Mass Storage Device";
         private const string DefaultMfg = "@usbstor.inf,%generic.mfg%;Compatible USB storage device";
+        private const string DefaultService = "UASPStor";
 
         /// <summary>
         /// Reads all current WTG settings from the registry.
