@@ -20,7 +20,7 @@ mono_crash.*
 bin/
 obj/
 .vscode
-/docs/
+docs/RUFUS*.md
 .editorconfig
 
 # Build results

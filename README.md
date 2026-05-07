@@ -29,11 +29,9 @@
 
 ## Background
 
-Windows To Go allows you to run Windows from a USB drive, but Microsoft has progressively restricted this feature. For example, upgrading a WTG installation to Windows 11 is blocked by default unless certain registry keys are modified.
+Windows To Go allows you to run Windows from a USB drive, but Microsoft has imposed numerous restrictions on this feature. For example, Microsoft has removed the WinToGo creation tool from the Enterprise edition, WinToGo systems cannot be upgraded across versions using standard methods, and you cannot easily convert the Windows installation on your laptop or desktop into a WinToGo system.
 
-This tool automates those modifications — originally created to simplify upgrading a WTG system to Windows 11, it has grown into a utility for general WTG system management.
-
-> **Note:** This is the author's first C# project. The code may not be idiomatic; suggestions and contributions are welcome!
+This tool automates these modifications—originally created to simplify WinToGo upgrades, it has evolved into a utility for general WinToGo system management.
 
 ## Features
 
